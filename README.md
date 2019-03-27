@@ -9,6 +9,7 @@
 # 扩展库
 1. 文件操作库:[lfs1.7.0](https://github.com/keplerproject/luafilesystem)
 2. 网络库:[luasocket](https://github.com/diegonehab/luasocket)
+   [文档](http://w3.impa.br/~diego/software/luasocket/)
 3. lua扩展库[sllib_base1.1](https://github.com/sywoon/sllib_lua.git)
 4. 字符匹配[lpeg1.0.2](http://www.inf.puc-rio.br/~roberto/lpeg/)
 5. 字节流处理库[struct0.3](http://www.inf.puc-rio.br/~roberto/struct/)

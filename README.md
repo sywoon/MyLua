@@ -14,7 +14,7 @@
 4. 字符匹配[lpeg1.0.2](http://www.inf.puc-rio.br/~roberto/lpeg/)
 5. 字节流处理库[struct0.3](http://www.inf.puc-rio.br/~roberto/struct/)
    lua5.3里可用string.pack unpack代替
-
+6. [md51.1.2](http://files.luaforge.net/releases/md5/md5)
 
 
 

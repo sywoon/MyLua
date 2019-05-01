@@ -10,6 +10,7 @@ call :MAKE_LFS
 call :MAKE_LPEG
 call :MAKE_STRUCT
 call :MAKE_SOCKET
+call :MAKE_MD5
 
 pause
 rmdir /Q /S output
@@ -62,3 +63,13 @@ copy /y output\\mime\\core.dll bin\\mime
 copy /y output\\socket\\core.dll bin\\socket
 goto :eof
 
+
+:MAKE_MD5
+cd md5 
+call make_cl.bat
+cd ..
+
+mkdir bin\\md5
+copy /y output\\md5\\core.dll bin\\md5
+copy /y output\\des56.dll bin\\
+goto :eof

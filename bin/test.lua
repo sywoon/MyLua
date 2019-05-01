@@ -4,6 +4,8 @@ local lpeg = require "lpeg"
 local struct = require "struct"
 local socket = require "socket.core"
 local mime = require "mime.core"
+local md5 = require "md5.core"
+local des56 = require "des56"
 
 print(_VERSION)
 
@@ -13,6 +15,8 @@ local libs = {
     ["struct"] = struct,
     ["socket"] = socket,
     ["mime"] = mime,
+    ["md5"] = md5,
+    ["des56"] = des56,
 }
 
 for name, lib in pairs(libs) do

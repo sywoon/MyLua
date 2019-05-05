@@ -21,18 +21,18 @@ t=t è 2
 å r={}ó.õ(r,"stack tracevalue:")å l=á
 å n=Ëå t=e+t
 ï e<t É
-å t=®.œ(e,"nS")l=t.what=="main"å o={}ó.õ(o,ñ.£(n.."file:%s line:%d function:%s()\n",t.≈,t.ø,t.Ò èﬁ))n=n..Ëà n=1,a É
+å o=®.œ(e,"nS")l=o.what=="main"å t={}ó.õ(t,ñ.£(n.."file:%s line:%d function:%s()\n",o.≈,o.ø,o.Ò èﬁ))n=n..Ëà n=1,a É
 å n,e=®.getlocal(e,n)ä ç==n í
 Ç
 Ü
 ä ù(e)~="function"Å n~="self"í
-å t
+å o
 ä ù(e)==°í
-t=ñ.Ø(ó.tostringex(e),1,i)Ñ
-t=”(e)Ü
-ó.õ(o,”(n).."="..t)ó.õ(o,’)Ü
+o=ñ.Ø(ó.tostringex(e),1,i)Ñ
+o=”(e)Ü
+ó.õ(t,”(n).."="..o)ó.õ(t,’)Ü
 Ü
-ó.õ(r,ó.…(o,n))ä l í
+ó.õ(r,ó.…(t,n))ä l í
 Ç
 Ü
 e=e+1
@@ -76,19 +76,19 @@ e:write(t)e:Â()ë ì
 å n=¬ è load
 å e=n(e)()ë e
 Ü
-â ∆.writeLuaFile(e,n)å t=û.¡(e)û.∑(t)ä ç==ó.ò í
+â ∆.writeLuaFile(n,e)å t=û.¡(n)û.∑(t)ä ç==ó.ò í
 ë á
 Ü
-å n=ó.ò(n)ä ç==n í
+å e=ó.ò(e)ä ç==e í
 ë á
 Ü
-∆.Æ(e,n)ë ì
+∆.Æ(n,e)ë ì
 Ü
 Ü)ü.†['sllib.logs']=(â(...)¢=¢ è{}å i=á
-å o=ç
-å t=ì
+å t=ç
+å n=ì
 å â l(e)ä ù(e)==¿í
-ä t í
+ä n í
 ë√..e..√Ñ
 ë e
 Ü
@@ -98,39 +98,39 @@ e:write(t)e:Â()ë ì
 å e=ò(e)è ë e
 Ü
 Ü
-å â n()ä o í
-ë o
+å â o()ä t í
+ë t
 Ü
-å e=û.‘("*t")å e=ñ.£("%s_%s_%s.log",e.Ô,e.„,e.day)o=e
+å e=û.‘("*t")å e=ñ.£("%s_%s_%s.log",e.Ô,e.„,e.day)t=e
 ë e
 Ü
-å â a(t)å e=n()∆.Æ(e,t,"a+")Ü
-å â r(t)å e=û.‘("*t")å o=û.æ()å n=t
+å â r(n)å e=o()∆.Æ(e,n,"a+")Ü
+å â o(t)å e=û.‘("*t")å o=û.æ()å n=t
 ä i í
 n=ñ.£("[%s-%s-%s %02s:%02s:%02s %s]\n%s",e.Ô,e.„,e.day,e.Ì,e.min,e.sec,o,t)Ñ
 n=t
 Ü
-≠(n)a(n)a('\n')Ü
+≠(n)r(n)r('\n')Ü
 â ¢.showLogTime(e)i=e
 Ü
-â ¢.setLogPath(e)o=e
+â ¢.setLogPath(e)t=e
 Ü
 â ¢.clear()å e=getLogPath()ä é û.exist(e)í
 ë
 Ü
 ∆.Æ(e,ﬁ)Ü
 â ¢.i(...)à n,e ã §({...})É
-å e=l(e)r(e)Ü
+å e=l(e)o(e)Ü
 Ü
 â ¢.w(...)û.´("echo. & color 0E")à n,e ã §({...})É
-å e=l(e)r(e)Ü
+å e=l(e)o(e)Ü
 Ü
-â ¢.e(...)û.´("echo. & color 0C")¢.i(...)å e=t
-t=á
-¢(®.‡(ﬁ,2))t=e
+â ¢.e(...)û.´("echo. & color 0C")¢.i(...)å e=n
+n=á
+¢(®.‡(ﬁ,2))n=e
 Ü
-â ¢.f(e,...)r(ñ.£(e,...))Ü
-â ¢.“(e,...)e=e è"nil"å e=ñ.£(e,...)å e=®.‡(e,2)r(e)Ü
+â ¢.f(e,...)o(ñ.£(e,...))Ü
+â ¢.“(e,...)e=e è"nil"å e=ñ.£(e,...)å e=®.‡(e,2)o(e)Ü
 ë ¢
 Ü)ü.†['sllib.os_ext']=(â(...)å n=ö"lfs"å â t(e)e=ñ.±(e,Ÿ,π)ä ñ.Ø(e,-1,-1)==πí
 e=ñ.Ø(e,1,-2)Ü
@@ -185,20 +185,20 @@ e=e..πÜ
 ë û.∑(e)Ü
 ë ì
 Ü
-â û.rmdir(n,e)ä é û.÷(n)í
-ä e í
-≠("os.rmdir error:not dir:"..n)Ü
+â û.rmdir(e,n)ä é û.÷(e)í
+ä n í
+≠("os.rmdir error:not dir:"..e)Ü
 ë
 Ü
-n=ñ.±(n,π,Ÿ)å t
-ä e í
-t=‰..n
+e=ñ.±(e,π,Ÿ)å t
+ä n í
+t=‰..e
 Ñ
-t=‰..n..¥Ü
-ä e==ì í
-e=≠
+t=‰..e..¥Ü
+ä n==ì í
+n=≠
 Ü
-ä e í e(t)Ü
+ä n í n(t)Ü
 ë û.´(t)Ü
 â û.movedir(n,e)n=t(n)e=t(e)å t=û.Ω(n)e=e..π..t
 û.∫(e)ë û.Ù(n,e)Ü
@@ -229,7 +229,7 @@ n=≠
 â û.movefile(n,e)û.∑(e)å t=û.Ω(n)e=e..π..t
 ë û.Ù(n,e)Ü
 â û.dirempty(e)å e=û.dir(e,ì)ë ó.empty(e)Ü
-â û.dir(t,e,l)ä ñ.Ø(t,-1,-1)==πí
+â û.dir(t,e,r)ä ñ.Ø(t,-1,-1)==πí
 t=ñ.Ø(t,1,-2)Ü
 å o=30
 ä ù(e)=="boolean"í
@@ -239,24 +239,24 @@ e=e
 Ñ
 e=o
 Ü
-å o={}å r={}å â i(a,t)t=t-1
-à e ã n.dir(a)É
+å l={}å a={}å â o(i,t)t=t-1
+à e ã n.dir(i)É
 ä e~='.'Å e~='..'í
-å e=a..'/'..e
+å e=i..'/'..e
 å n=n.ß(e)ä n==ç í
 Ç
 Ü
-å n=n.Ï=='directory'ä ç==l è l(e,n)í
+å n=n.Ï=='directory'ä ç==r è r(e,n)í
 ä n í
-ó.õ(o,e)Ñ
-ó.õ(r,e)Ü
+ó.õ(l,e)Ñ
+ó.õ(a,e)Ü
 ä n Å t>0 í
-i(e,t)Ü
+o(e,t)Ü
 Ü
 Ü
 Ü
 Ü
-i(t,e)ë r,o
+o(t,e)ë a,l
 Ü
 Ü)ü.†['sllib.profiler']=(â(...)å e={}â e:setLogFunc(e)ú.µ=e
 Ü
@@ -344,39 +344,39 @@ t[e]=e
 ë
 Ü
 o[e]=e
-à e,t ã ©(e)É
-ä ù(e)==°í
-n(e)Ö ù(t)==°í
-n(t)Ü
+à t,e ã ©(e)É
+ä ù(t)==°í
+n(t)Ö ù(e)==°í
+n(e)Ü
 Ü
 Ü
 n(r)ë t
 Ü
 å â c(c,u,d)å n=ó.õ
 å f=ó.…
-å s={}å r=l(c)å â a(o,l,t)l=l Å(l-1)è 30
+å a={}å r=l(c)å â s(o,l,t)l=l Å(l-1)è 30
 ä l<0 í
 ë t.."..."Ü
 t=t èﬁä next(o)==ç í
 ë t.."{}"Ü
 ä ≤ í
-s[o]=o
+a[o]=o
 Ü
 å e={}n(e,t.."{")ä r[o]í
 n(e,¨(o))Ü
 n(e,’)t=t..Ëä ÿ è#o==0 í
 à i,r ã ©(o)É
 n(e,t)ä ù(i)==°í
-ä s[o]í
+ä a[o]í
 n(e,¨(o))Ñ
-ı(e)n(e,a(i,l,t))Ü
+ı(e)n(e,s(i,l,t))Ü
 Ö ù(i)==¶í
 n(e,"["..ô(i).."]")Ñ
 å t=‚.ò(i)n(e,'["'..t..'"]')Ü
 n(e," = ")ä ù(r)==°í
-ä s[r]í
+ä a[r]í
 n(e,¨(r))Ñ
-n(e,’)n(e,a(r,l,t))Ü
+n(e,’)n(e,s(r,l,t))Ü
 Ö ù(r)==¶í
 n(e,ô(r))Ö ù(r)==¿í
 n(e,√..r..√)Ñ
@@ -385,16 +385,16 @@ n(e,",\n")Ü
 Ñ
 à r,o ã §(o)É
 n(e,t)n(e,"["..ô(r).."]")n(e," = ")ä ù(o)==°í
-n(e,’)ä s[o]í
+n(e,’)ä a[o]í
 n(e,¨(o))Ñ
-n(e,a(o,l,t))Ü
+n(e,s(o,l,t))Ü
 Ö ù(o)==¶í
 n(e,ô(o))Ñ
 n(e,√..‚.ò(o)..√)Ü
 n(e,",\n")Ü
 Ü
 e[#e]=","n(e,’..ñ.Ø(t,1,-3).."}")ë f(e)Ü
-ë a(c,u,d)Ü
+ë s(c,u,d)Ü
 å â l(t,o)å n=ó.õ
 å i=ó.…
 o=o Å(o-1)è 10
@@ -419,8 +419,8 @@ n(e,"}")ë i(e)Ü
 Ü,["values"]=â(n)å e={}à t,n ã ©(n è{})É
 õ(e,n)Ü
 ë e
-Ü,["invert"]=â(n)å e={}à n,t ã ©(n è{})É
-e[t]=n
+Ü,["invert"]=â(n)å e={}à t,n ã ©(n è{})É
+e[n]=t
 Ü
 ë e
 Ü,["clone"]=â(n,t)å e={}ä é t í
@@ -452,41 +452,41 @@ n[e]=n[e]è t
 ó.õ(e,n)Ü
 Ü
 ë e
-Ü,["remove"]=â(e,o)à t,n ã §(e)É
-ä n==o í
-ó.ı(e,t)Ç
+Ü,["remove"]=â(e,o)à n,t ã §(e)É
+ä t==o í
+ó.ı(e,n)Ç
 Ü
 Ü
 ë e
-Ü,["sub"]=â(t,o,e)e=e è#t
-å n={}à e=o,e É
-ó.õ(n,t[e])Ü
-ë n
+Ü,["sub"]=â(n,o,e)e=e è#n
+å t={}à e=o,e É
+ó.õ(t,n[e])Ü
+ë t
 Ü,["cut"]=â(n,e)å n=».Ø(1,e)å e=».Ø(e+1)ë n,e
-Ü,["exist"]=â(n,e)à t,n ã §(n)É
-ä n==e í
+Ü,["exist"]=â(e,n)à t,e ã §(e)É
+ä e==n í
 ë ì
 Ü
 Ü
 ë á
-Ü,["reverse"]=â(e)å n={}à t=#e,1,-1 É
-ó.õ(n,e[t])Ü
-ë n
-Ü,["mirror"]=â(n)å e={}à t,n ã §(n)É
-e[n]=n
-Ü
+Ü,["reverse"]=â(n)å e={}à t=#n,1,-1 É
+ó.õ(e,n[t])Ü
 ë e
+Ü,["mirror"]=â(e)å n={}à t,e ã §(e)É
+n[e]=e
+Ü
+ë n
 Ü,["project"]=â(n,t)å e={}à o,n ã §(n)É
 e[n[t]]=n
 Ü
 ë e
-Ü,}o(»,e)Ü)ü.†['sllib.time']=(â(...)ª=ª è{}å â t(n,e)à e,t ã ©(e)É
-n[e]=n[e]è t
+Ü,}o(»,e)Ü)ü.†['sllib.time']=(â(...)ª=ª è{}å â o(e,n)à n,t ã ©(n)É
+e[n]=e[n]è t
 Ü
 Ü
-å e={["time"]=â()ë û.ª()Ü,["clock"]=â()ë û.æ()Ü,["millitime"]=â()ë º.–(socket.gettime()*1e3)Ü,["sleep"]=â(e)e=e è 0
-û.´("ping -n "..Î(e+1).." localhost > NUL")Ü,["getStr"]=â(e,n)e=e è'%c'n=n è û.ª()ë û.‘(e,n)Ü,["getEndOfDay"]=â()å e=û.ª()å e=û.‘('*t',e)å e=û.‘('*t',û.ª({Ô=e["year"],„=e["month"],day=e["day"],Ì=23,min=59,sec=59}))å e=û.ª(e)ë e
-Ü,["toHour"]=â(e)å t=º.–(e/3600)å n=º.–(º.Ó(e,3600)/60)å e=º.Ó(e,60)ë{Ì=t,min=n,sec=e}Ü,}t(ª,e)Ü)rawset(‚,"SLLIB_VERSION","1.1")ö"sllib.global"ö"sllib.io_ext"ö"sllib.os_ext"ö"sllib.table_ext"ö"sllib.string_ext"ö"sllib.list_ext"ö"sllib.debug_ext"ö"sllib.time"ö"sllib.logs"ö"sllib.class"enum=ó.invert
+å e={["time"]=â()ë û.ª()Ü,["clock"]=â()ë û.æ()Ü,["millitime"]=â()ö"socket.core"ë º.–(socket.gettime()*1e3)Ü,["sleep"]=â(e)e=e è 0
+û.´("ping -n "..Î(e+1).." localhost > NUL")Ü,["getstr"]=â(e,n)e=e è'%c'n=n è û.ª()ë û.‘(e,n)Ü,["getendofday"]=â(e)e=e è û.ª()å e=û.‘('*t',e)å e=û.‘('*t',û.ª({Ô=e["year"],„=e["month"],day=e["day"],Ì=23,min=59,sec=59}))å e=û.ª(e)ë e
+Ü,["tohour"]=â(e)å t=º.–(e/3600)å n=º.–(º.Ó(e,3600)/60)å e=º.Ó(e,60)ë{Ì=t,min=n,sec=e}Ü,}o(ª,e)Ü)rawset(‚,"SLLIB_VERSION","1.1")ö"sllib.global"ö"sllib.io_ext"ö"sllib.os_ext"ö"sllib.table_ext"ö"sllib.string_ext"ö"sllib.list_ext"ö"sllib.debug_ext"ö"sllib.time"ö"sllib.logs"ö"sllib.class"enum=ó.invert
 log=log è ¢.i
 logw=logw è ¢.w
 loge=loge è ¢.e

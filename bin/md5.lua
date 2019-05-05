@@ -8,5 +8,13 @@ function md5.sumhexa(k)
          end))
 end
 
+function md5.sumFile(filepath)
+	local data = io.readFile(filepath, "rb")
+	if data == nil then
+		return nil, "read file error:" .. inpath
+	end
+	return md5.sumhexa(data)
+end
+
 
 return md5

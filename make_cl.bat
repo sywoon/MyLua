@@ -11,6 +11,7 @@ call :MAKE_LPEG
 call :MAKE_STRUCT
 call :MAKE_SOCKET
 call :MAKE_MD5
+call :MAKE_ZLIB
 
 pause
 rmdir /Q /S output
@@ -72,4 +73,13 @@ cd ..
 mkdir bin\\md5
 copy /y output\\md5\\core.dll bin\\md5
 copy /y output\\des56.dll bin\\
+goto :eof
+
+:MAKE_ZLIB
+cd zlib 
+call make_cl.bat
+cd ..
+
+mkdir bin\\zlib
+copy /y output\\zlib\\core.dll bin\\zlib
 goto :eof

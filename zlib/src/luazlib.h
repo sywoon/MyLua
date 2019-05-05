@@ -10,6 +10,6 @@
 #endif
 
 #define LUA_ZLIBNAME	"zlib"
-LUAZLIB_API int luaopen_zlib( lua_State * L );
+LUAZLIB_API int luaopen_zlib_core( lua_State * L );
 
 #endif //__LUA_ZLIB_H__

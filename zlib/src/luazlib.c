@@ -328,11 +328,11 @@ static const luaL_Reg zlib_funcs[] =
 	{ NULL, NULL }
 };
 
-LUAZLIB_API int luaopen_zlib( lua_State * L )
+LUAZLIB_API int luaopen_zlib_core( lua_State * L )
 {
 	//luaL_openlib( L, LUA_ZLIBNAME, zlib_funcs, 0 );
 	
-	luaL_register(L, "LUA_ZLIBNAME", zlib_funcs);
+	luaL_register(L, LUA_ZLIBNAME, zlib_funcs);
 
 	lua_pushliteral (L, "_COPYRIGHT");
 	lua_pushliteral (L, "Copyright (C) 2006 Andreas Stenius, Boxcom AB");

@@ -12,6 +12,7 @@ call :MAKE_STRUCT
 call :MAKE_SOCKET
 call :MAKE_MD5
 call :MAKE_ZLIB
+call :MAKE_ZLIB_STREAM
 
 pause
 rmdir /Q /S output
@@ -83,3 +84,23 @@ cd ..
 mkdir bin\\zlib
 copy /y output\\zlib\\core.dll bin\\zlib
 goto :eof
+
+
+:MAKE_ZLIB_STREAM
+cd zlib-stream
+call make_cl.bat
+cd ..
+
+mkdir bin\\zlibstream
+copy /y output\\zlibstream\\core.dll bin\\zlibstream
+goto :eof
+
+
+
+
+
+
+
+
+
+

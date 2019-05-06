@@ -7,8 +7,8 @@ end
 
 print("md5 before", md5.sumFile("lua.exe"))
 
-print(zlib.compressFile("lua.exe", "lua.zip"))
-print(zlib.uncompressFile("lua.zip", "lua2.exe"))
+print(zlib.compressFile("lua.exe", "lua_1.zip"))
+print(zlib.uncompressFile("lua_1.zip", "lua_1.exe"))
 
 
-print("md5 after", md5.sumFile("lua2.exe"))
+print("md5 after", md5.sumFile("lua_1.exe"))

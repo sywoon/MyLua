@@ -1,0 +1,4 @@
+LIBRARY core.dll
+VERSION 1.0
+EXPORTS
+    luaopen_zlibstream_core

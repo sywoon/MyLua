@@ -1,3 +1,5 @@
+![](https://raw.githubusercontent.com/sywoon/MyLua/master/lua.gif)
+
 # MyLua(https://github.com/sywoon/MyLua)
 * 喜欢lua的简洁，原本lua for window包含了大量的实用库，但只支持5.1的版本。
 * 升级到5.3后，很多库都不能用了。为了方便用lua写各类项目需要的工具，才有了这个工程。

@@ -10,8 +10,8 @@ local function _initPath(path)
 	local extpath = ""
 	for _, path in ipairs({
                 exePath,
-				"c:\\Program Files (x86)\\Lua\\5.1\\lua\\",
-				"d:\\Program Files (x86)\\Lua\\5.1\\lua\\",
+				--"c:\\Program Files (x86)\\Lua\\5.1\\lua\\",
+				--"d:\\Program Files (x86)\\Lua\\5.1\\lua\\",
 				}) do
 		local str = string.gsub("#?.lua;#?\\init.lua;#?.luac;", "#", path)
 		extpath = extpath .. str
@@ -21,8 +21,8 @@ local function _initPath(path)
 	local extcpath = ""
 	for _, path in ipairs({
                 exePath,
-				"c:\\Program Files (x86)\\Lua\\5.1\\clibs\\",
-				"d:\\Program Files (x86)\\Lua\\5.1\\clibs\\",
+				--"c:\\Program Files (x86)\\Lua\\5.1\\clibs\\",
+				--"d:\\Program Files (x86)\\Lua\\5.1\\clibs\\",
 				}) do
 		local str = string.gsub("#?.dll;", "#", path)
 		extcpath = extcpath .. str

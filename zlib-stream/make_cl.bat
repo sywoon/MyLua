@@ -11,5 +11,5 @@ del *.obj
 
 popd
 
-pause
+
 

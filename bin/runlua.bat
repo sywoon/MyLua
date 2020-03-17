@@ -7,5 +7,6 @@ if "%~dp0"=="%~dp1" (
     set "luastring=require('__init'); g_initSllib({[[%~dp0]], [[%~dp1]]})"
 )
 
-call %~dp0\lua -e "%luastring%" %~nx1
+::echo %*
+call %~dp0\lua -e "%luastring%" %~nx1 %~2 %~3 %~4 %~5 %~6 %~7 %~8 %~9
 

@@ -8,7 +8,7 @@ local md5 = require "md5.core"
 local des56 = require "des56"
 local zlib = require "zlib.core"
 local json = require "cjson"
-
+local charset = require "charset"
 
 print(_VERSION)
 
@@ -22,6 +22,7 @@ local libs = {
     ["des56"] = des56,
     ["zlib"] = zlib,
     ["json"] = json,
+    ["charset"] = charset,
 }
 
 for name, lib in pairs(libs) do

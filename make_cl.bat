@@ -13,6 +13,7 @@ call :MAKE_SOCKET
 call :MAKE_MD5
 call :MAKE_ZLIB
 call :MAKE_ZLIB_STREAM
+call :MAKE_CHARSET
 
 pause
 rmdir /Q /S output
@@ -96,8 +97,13 @@ copy /y output\\zlibstream\\core.dll bin\\zlibstream
 goto :eof
 
 
+:MAKE_CHARSET
+cd charset
+call make_cl.bat
+cd ..
 
-
+copy /y output\\charset.dll bin
+goto :eof
 
 
 

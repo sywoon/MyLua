@@ -9,6 +9,7 @@ local des56 = require "des56"
 local zlib = require "zlib.core"
 local json = require "cjson"
 local charset = require "charset"
+local crc32 = require "crc32.core"
 
 print(_VERSION)
 
@@ -23,6 +24,7 @@ local libs = {
     ["zlib"] = zlib,
     ["json"] = json,
     ["charset"] = charset,
+    ["crc32"] = crc32,
 }
 
 for name, lib in pairs(libs) do

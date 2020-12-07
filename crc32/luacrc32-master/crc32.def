@@ -1,0 +1,5 @@
+LIBRARY crc32.dll
+DESCRIPTION "LuaCrc32-1.1.1"
+VERSION 1.0
+EXPORTS
+luaopen_crc32_core

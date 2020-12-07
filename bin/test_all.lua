@@ -9,7 +9,7 @@ local des56 = require "des56"
 local zlib = require "zlib.core"
 local json = require "cjson"
 local charset = require "charset"
-local crc32 = require "crc32.core"
+local crc32 = require "crc32"
 
 print(_VERSION)
 
@@ -36,6 +36,15 @@ for name, lib in pairs(libs) do
 end
 
 
+
+print("-------exam--------")
+print("--crc32--")
+do
+    local str = "aabbcc"
+    print(str, crc32:tohex(str))
+    local file = "crc32/core.dll"
+    print(file, crc32:filetohex(file))
+end
 
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        

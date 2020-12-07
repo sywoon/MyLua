@@ -39,6 +39,9 @@
 
 # tools 基于该lua环境的工具
 file_convert 文件格式互转: ansi和utf8
+file_sync 文件同步工具：模拟beyondcompare类似功能  基于crc32比对
+
+
 
 
 

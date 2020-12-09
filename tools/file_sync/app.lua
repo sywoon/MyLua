@@ -18,6 +18,9 @@ end
 
 -- 1:left changed 2:left changed + left new  3:mirror 4:mirror+keep_right_new
 function App:syncFolder(from, to, mode)
+    from = fixPath(from)
+    to = fixPath(to)
+    
     local start = os.time()
     printU("同步文件中...", from, to, mode)
     local storage = self.parser:deal(from, to)
@@ -42,7 +45,7 @@ function App:_syncFolderByLeftChangedAndNewer(storage)
     local filesAll = storage.filesAll   --{ same = {}, leftNew = {}, rightNew = {}}
     for _, config in ipairs(filesAll) do
         for _, filepath in ipairs(config.leftNew) do
-            local file = string.gsub(filepath, config.from, "")
+            local file = string.cutsub(filepath, config.from)
             local topath = config.to .. file
             logU("复制文件:", filepath, topath)
             os.copyfile(filepath, topath)
@@ -53,7 +56,7 @@ function App:_syncFolderByLeftChangedAndNewer(storage)
     -- 左边的新文件夹
     for _, config in ipairs(foldersAll) do
         for _, dirpath in ipairs(config.leftNew) do
-            local folder = string.gsub(dirpath, config.from, "")
+            local folder = string.cutsub(dirpath, config.from)
             local topath = config.to .. folder
             logU("复制文件夹:", dirpath, topath)
             os.copydir(dirpath, topath)
@@ -68,7 +71,7 @@ function App:_syncFolderByLeftChanged(storage)
     --同名文件 left更新的同步到右边
     for _, config in ipairs(filesAll) do
         for _, filepath in ipairs(config.same) do
-            local file = string.gsub(filepath, config.from, "")
+            local file = string.cutsub(filepath, config.from)
             local topath = config.to .. file
 
             if self:isFileLeftNewer(filepath, topath) then
@@ -86,7 +89,7 @@ function App:_mirrorFolderByLeft(storage, removeRightNew)
     for _, config in ipairs(filesAll) do
         --同名文件 left有差别就同步
         for _, filepath in ipairs(config.same) do
-            local file = string.gsub(filepath, config.from, "")
+            local file = string.cutsub(filepath, config.from)
             local topath = config.to .. file
             logU("同步文件:", filepath, topath)
             self:syncFileByCrc32(filepath, topath)
@@ -111,7 +114,7 @@ function App:_mirrorFolderByLeft(storage, removeRightNew)
     for _, config in ipairs(foldersAll) do
         -- 左边的新文件夹
         for _, dirpath in ipairs(config.leftNew) do
-            local folder = string.gsub(dirpath, config.from, "")
+            local folder = string.cutsub(dirpath, config.from)
             local topath = config.to .. folder
             logU("复制新增文件夹:", dirpath, topath)
             os.copydir(dirpath, topath)

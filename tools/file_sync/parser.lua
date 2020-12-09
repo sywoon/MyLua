@@ -1,18 +1,14 @@
 local lfs = require "lfs"
 local Parser = class("Parser")
 
-local function _fixPath(path)
-    path = string.gsub(path, "\\", "/")
-    return path
-end
 
 function Parser:ctor()
 end
 
 
 function Parser:deal(from, to)
-    from = _fixPath(from)
-    to = _fixPath(to)
+    from = fixPath(from)
+    to = fixPath(to)
 
     local storage = {filesAll={}, foldersAll={}}
     self:_dealTwoFolder(from, to, storage)
@@ -36,7 +32,7 @@ function Parser:_dealTwoFolder(from, to, storage)
     end
 
     for _, folder in ipairs(folders.same) do
-        folder = string.gsub(folder, from, "")
+        folder = string.cutsub(folder, from)
         -- print("===", from, folder)
         self:_dealTwoFolder(from .. folder .. "/", to .. folder .. "/", storage)
     end
@@ -57,6 +53,7 @@ function Parser:_findDiffFolderAndFiles(from, to)
     foldersL = self:_cutRootPath(foldersL, from)
     filesR = self:_cutRootPath(filesR, to)
     foldersR = self:_cutRootPath(foldersR, to)
+
 
     -- 按文件夹  单独过滤
     -- 情况：
@@ -106,7 +103,7 @@ end
 function Parser:_cutRootPath(pathes, rootPath)
     local data = {}
     for _, path in ipairs(pathes) do
-        local t = string.gsub(path, rootPath, "")
+        local t = string.cutsub(path, rootPath)
         table.insert(data, t)
     end
     return data

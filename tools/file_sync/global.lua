@@ -31,4 +31,11 @@ function pause(msg)
     end
 end
 
-
+function fixPath(path)
+    path = string.gsub(path, "\\", "/")
+    path = string.gsub(path, "//", "/")
+    if string.sub(path, -1, -1) ~= "/" then
+        path = path .. "/"
+    end
+    return path
+end

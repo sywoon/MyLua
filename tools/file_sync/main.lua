@@ -13,6 +13,9 @@ function main()
     local to = arg[2]
     local mode = tonumber(arg[3])
 
+    from = fixPath(from)
+    to = fixPath(to)
+
     local app = App.new()
     rawset(_G, "app", app)
     app:syncFolder(from, to, mode)

@@ -2,9 +2,11 @@ local C32 = require "crc32.core"
 
 local M = {}
 
+M.crc = C32.newcrc32()
 
 function M:tohex(text)
-    local crc = C32.newcrc32()
+    local crc = self.crc
+    crc:reset("")
     crc:update(text)
     return crc:tohex()
 end

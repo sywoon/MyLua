@@ -24,8 +24,9 @@
 8. [zlib-stream](https://github.com/brimworks/lua-zlib) zlib的另一种实现方式
 9. [lua-cjson-2.1.0](https://www.kyne.com.au/~mark/software/lua-cjson.php)
    因为性能问题 没有采用纯lua库[luajson1.2.2](http://luaforge.net/projects/luajson/) 
-
-
+10.字符串类型转换库[charset] ansi utf8 unicode互转 一般用于控制台显示中文
+11.[crc32] 支持计算字符串或文件的crc32值 可参考同步工具tools/file_sync
+12.[console] 修改控制台的颜色  用于错误的log用红色显示
 
 
 # windows中使用方式

@@ -1,0 +1,4 @@
+LIBRARY core.dll
+VERSION 0.1
+EXPORTS
+luaopen_console_core

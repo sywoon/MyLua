@@ -15,6 +15,7 @@ call :MAKE_ZLIB
 call :MAKE_ZLIB_STREAM
 call :MAKE_CHARSET
 call :MAKE_CRC32
+call :MAKE_CONSOLE
 
 pause
 rmdir /Q /S output
@@ -116,6 +117,12 @@ mkdir bin\\crc32
 copy /y output\\crc32\\core.dll bin\\crc32
 goto :eof
 
+:MAKE_CONSOLE
+cd console
+call make_cl.bat
+cd ..
 
-
+mkdir bin\\console
+copy /y output\\console\\core.dll bin\\console
+goto :eof
 

@@ -13,6 +13,9 @@ local crc32 = require "crc32"
 local console = require "console"
 
 print(_VERSION)
+for k, v in pairs(_G) do
+    print(k, v)
+end
 
 local libs = {
     ["lfs"] = lfs, 
@@ -47,6 +50,17 @@ do
     local file = "crc32/core.dll"
     print(file, crc32:filetohex(file))
 end
+
+print("--log & print--")
+print(11)
+printw(22)
+printe(33)
+log(111)
+logw(222)
+loge(333)
+print("end")
+
+
 
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        

@@ -1,0 +1,44 @@
+
+环境：
+vs2015
+im-3.15_Sources
+zlib-1.2.11_Sources
+
+搭建：
+解压两个src 并排放入同一个文件夹im zlib
+修改工程路径：
+  im  得到 im.lib
+    目标平台版本 本地安装版本
+    平台工具集 vs2015 v140
+  imlua  得到 imlua.lib
+    同上
+    附加包含目录
+      ../../../../lib/include
+    附加库目录
+      ../../../../lib/
+    附加依赖项
+      lua53.lib
+
+  zlib1 独立的sln内  得到zlib1.lib
+    目标平台版本 本地安装版本
+    平台工具集 vs2015 v140
+
+
+
+方案1：lib入exe
+直接编译imlua和im工程 只能得到lib
+尝试编译入lua53.exe 能编译过 但require不到
+
+
+方案2：dll
+编译下载的zip
+
+
+
+
+
+
+
+
+
+

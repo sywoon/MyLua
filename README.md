@@ -27,6 +27,8 @@
 10.字符串类型转换库[charset] ansi utf8 unicode互转 一般用于控制台显示中文
 11.[crc32] 支持计算字符串或文件的crc32值 可参考同步工具tools/file_sync
 12.[console] 修改控制台的颜色  用于错误的log用红色显示
+13. 图片信息[imlua](https://sourceforge.net/projects/imtoolkit/files/)
+    [imtoolkit](http://imtoolkit.sourceforge.net/)
 
 
 # windows中使用方式

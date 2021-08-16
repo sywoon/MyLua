@@ -1,37 +1,99 @@
+http://imtoolkit.sourceforge.net/
+http://www.tecgraf.puc-rio.br/tecmake/en/download_tips.html
+https://sourceforge.net/projects/imtoolkit/files/
+下载3.15源码
 
-������
+
+
+
+方案1：直接使用编译后的dll
+im-3.15_Win32_dll14_lib.zip
+im-3.15-Lua53_Win32_dll14_lib.zip
+所有dll放到 exe目录
+
+问题： 
+1 只有imlua53.dll 导致require "imlua"失败 找不到这个模块
+  对比lua for window 发现clibs下也是imlua51.dll 那它是怎么搞定的？ 也没搜索到imlua相关的其他文件
+原因：
+  根据文档说明 “Lua 5.1 "require" can be used for all the ImLua libraries. You can use require"imlua" and so on, but the LUA_CPATH must also contains the following: 
+
+”
+  "./lib?51.so;"    [in UNIX]
+  ".\\?51.dll;"     [in Windows]
+  ---
+  package.cpath = package.cpath .. "./lib?51.so;"    [in UNIX]
+  package.cpath = package.cpath .. ".\\?51.dll"     [in Windows]
+
+打开lua5.1 打印cpath：
+.\?.dll;C:\Program Files (x86)\Lua\5.1\?.dll;C:\Program Files (x86)\Lua\5.1\loadall.dll;C:\Program Files (x86)\Lua\5.1\clibs\?.dll;C:\Program Files (x86)\Lua\5.1\clibs\loadall.dll;.\?51.dll;C:\Program Files (x86)\Lua\5.1\?51.dll;C:\Program Files (x86)\Lua\5.1\clibs\?51.dll
+
+lua5.3  print(package.cpath)
+E:\Study_Github\MyLua\output\?.dll;E:\Study_Github\MyLua\output\..\lib\lua\5.3\?.dll;E:\Study_Github\MyLua\output\loadall.dll;.\?.dll
+
+解决：
+1 复制所有dll到单独的im文件夹下
+2 修改__init.lua 中的 string.gsub("#?.dll;#/im/?53.dll;", "#", path)
+
+新问题：
+1 报错：无法定位程序输入点 inflateValidate于动态链接库 im.dll上
+解决：
+编译zlib为dll 打开sln工程用vs2015  新增宏 ZLIB_DLL  将输出类型改为dll
+将dll复制到exe目录
+
+进一步优化：dll的位置
+1 复制所有imxx.dll 和 zlib.dll到单独的imlua文件夹下
+2 修改runlua.bat  
+新增 set "path=%~dp0/im/;%path%"
+
+3 notepad2打开的.lua文件 支持直接执行
+a __init.lua  修改 string.gsub("#?.dll;#/im/?53.dll;", "#", path)  为了支持require "imlua" 搜索im/imlua53.dll
+b run.bat 修改  为了搜索im目录下的dll
+if "%TYPE%" == "lua" (
+	set LUA="lua"
+	if exist "%~dp1\lua.exe" (
+        set LUA="%~dp1\lua"
+        set "path=%~dp1;%~dp1/im/;%path%"
+    )
+    
+
+搞定！！！
+
+
+
+方案2：自己编译源码  未实现
+环境：
 vs2015
 im-3.15_Sources
 zlib-1.2.11_Sources
 
-���
-��ѹ����src ���ŷ���ͬһ���ļ���im zlib
-�޸Ĺ���·����
-  im  �õ� im.lib
-    Ŀ��ƽ̨�汾 ���ذ�װ�汾
-    ƽ̨���߼� vs2015 v140
-  imlua  �õ� imlua.lib
-    ͬ��
-    ���Ӱ���Ŀ¼
+搭建：
+解压两个src 并排放入同一个文件夹im zlib
+修改工程路径：
+  im  得到 im.lib
+    目标平台版本 本地安装版本
+    平台工具集 vs2015 v140
+  imlua  得到 imlua.lib
+    同上
+    附加包含目录
       ../../../../lib/include
-    ���ӿ�Ŀ¼
+    附加库目录
       ../../../../lib/
-    ����������
+    附加依赖项
       lua53.lib
 
-  zlib1 ������sln��  �õ�zlib1.lib
-    Ŀ��ƽ̨�汾 ���ذ�װ�汾
-    ƽ̨���߼� vs2015 v140
+  zlib1 独立的sln内  得到zlib1.lib
+    目标平台版本 本地安装版本
+    平台工具集 vs2015 v140
 
 
 
-����1��lib��exe
-ֱ�ӱ���imlua��im���� ֻ�ܵõ�lib
-���Ա�����lua53.exe �ܱ���� ��require����
+方案1：lib入exe
+直接编译imlua和im工程 只能得到lib
+尝试编译入lua53.exe 能编译过 但require不到
 
 
-����2��dll
-�������ص�zip
+方案2：dll
+编译下载的zip
 
 
 

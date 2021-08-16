@@ -1,5 +1,6 @@
 @echo off
 
+set "path=%~dp0;%~dp0/im/;%path%"
 
 if "%~dp0"=="%~dp1" (
     set "luastring=require('__init'); g_initSllib({[[%~dp0]]})"

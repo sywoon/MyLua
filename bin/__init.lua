@@ -24,7 +24,7 @@ local function _initPath(path)
 				--"c:\\Program Files (x86)\\Lua\\5.1\\clibs\\",
 				--"d:\\Program Files (x86)\\Lua\\5.1\\clibs\\",
 				}) do
-		local str = string.gsub("#?.dll;", "#", path)
+		local str = string.gsub("#?.dll;#/im/?53.dll;", "#", path)
 		extcpath = extcpath .. str
 	end
 	package.cpath = extcpath .. package.cpath

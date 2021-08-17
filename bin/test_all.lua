@@ -64,9 +64,11 @@ printe(33)
 log(111)
 logw(222)
 loge(333)
-print("end")
 
-
+print("---time")
+print(time.getstr("%c"))
+print(time.time())
+print(time.millitime())
 
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        

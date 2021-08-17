@@ -11,6 +11,7 @@ local json = require "cjson"
 local charset = require "charset"
 local crc32 = require "crc32"
 local console = require "console"
+local im = require "imlua"
 
 print(_VERSION)
 for k, v in pairs(_G) do
@@ -30,6 +31,7 @@ local libs = {
     ["charset"] = charset,
     ["crc32"] = crc32,
     ["console"] = console,
+    ["im"] = im,
 }
 
 for name, lib in pairs(libs) do
@@ -41,6 +43,10 @@ for name, lib in pairs(libs) do
 end
 
 
+print("-------exe extend--------")
+print(os.clock())
+print(os.time())
+print(os.millitime())
 
 print("-------exam--------")
 print("--crc32--")

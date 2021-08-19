@@ -11,7 +11,7 @@ end
 function md5.sumFile(filepath)
 	local data = io.readFile(filepath, "rb")
 	if data == nil then
-		return nil, "read file error:" .. filepath
+		return 0, "read file error:" .. filepath
 	end
 	return md5.sumhexa(data)
 end

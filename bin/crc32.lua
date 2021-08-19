@@ -14,7 +14,7 @@ end
 function M:filetohex(filepath)
     local text = io.readFile(filepath)
     if nil == text then
-        return 0
+        return 0, "read file error:" .. filepath
     end
 
     return self:tohex(text)

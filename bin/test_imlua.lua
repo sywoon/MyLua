@@ -52,8 +52,8 @@ function getImageInfo(filePath)
 		["error"] 	= error,
 		["width"] 	= math.floor(width),
 		["height"]	= math.floor(height),
-		--["size"]	= math.floor(width * height * 4),  同imgSize
-		["imgSize"]	= im.ImageDataSize(width, height, colorMode, dataType),  --显存大小
+		--["size"]	= math.floor(width * height * 4),  同imgMem  *4 == *32/8
+		["imgMem"]	= im.ImageDataSize(width, height, colorMode, dataType),  --显存大小
 		["filesize"]= fileSize,  --实际占用硬盘大小
 		["filesizeDesc"]= {getSizeDesc(fileSize)},
 		["format"]	= format,

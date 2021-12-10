@@ -1,0 +1,148 @@
+
+1 用vs2015 直接打开mak.vs2005工程
+2 修改include lib的路径
+3 vs中 右键 luacom5.lua  属性：从生成中排除 选择true
+=== 不这么改  后面会用到！
+mak.vc6/luacom.dsp 中找到
+"luacom5.loh" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	c:\lua5.1\bin2c5.1.exe $(InputPath) > $(InputDir)\luacom5.loh
+-----
+lua for window中找到：
+C:\Program Files (x86)\Lua\5.1\bin2c.exe
+手动执行：
+luacom.vsprops 中定义了变量 bin2c luac 都是对应exe所在路径
+luacom.rules .props 定义了用luac和bin2c转 .lua为.loh c语言的头文件
+具体在vs的什么位置？
+-----
+>D:\Github\Lua\MyLua\luacom\luacom-master\mak.vs2005\luacom.targets(46,5): error MSB3721: 命令“ -o Debug\tmp.lo  ..\src\library\luacom5.lua &&  Debug\tmp.lo > D:\Github\Lua\MyLua\luacom\luacom-master\mak.vs2005\luacom5.loh”已退出，返回代码为 1。
+=-----
+还是启用 排除生成   改为手动生成luacom5.loh
+参考：luacom.dsp
+InputDir=\kepler-cvs\luacom\src\library
+InputPath=..\src\library\luacom5.lua
+
+"luacom5.loh" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	c:\lua5.1\bin2c5.1.exe $(InputPath) > $(InputDir)\luacom5.loh
+	
+写一个批处理：
+luac -o tmp.lo luacom5.lua
+bin2c tmp.lo > luacom5.loh
+
+
+
+4 修改报错
+4.1 添加宏 LUA_COMPAT_5_1  内部额外定义了 LUA_COMPAT_MODULE
+
+luaconf.h
+#define lua_strlen(L,i)		lua_rawlen(L, (i))
+
+来支持  lauxlib.h
+luaL_openlib
+#define luaL_register(L,n,l)	(luaL_openlib(L,(n),(l),0))
+
+
+4.2 修改源码   --如果定义了LUA_COMPAT_5_1  就不需要了
+#if defined(NLUA51)
+      size_t l_len = lua_rawlen(L, luaval);		// For > Lua 5.1
+#elif defined(LUA_COMPAT_5_1)
+      size_t l_len = lua_strlen(L, luaval);
+#else
+	  size_t l_len = lua_rawlen(L, luaval);
+#endif
+
+4.3 luacom.cpp 修改
+编译报错  找不到  LUACOM_DLL
+if(scriptFile) {
+      tCOMUtil::SetRegKeyValue(
+      CLSID,
+      "InprocServer32",
+      LUACOM_DLL);
+--------------     
+在luacom.dsp中找到了
+LUACOM_DLL=\"luacom51.dll\"
+
+luacom.dll.vcproj
+LUACOM_DLL=&quot;&quot;luacom.dll&quot;&quot;
+
+luacom.dll.vcxproj
+LUACOM_DLL=luacom.dll
+----
+为什么定义了还是报错？
+解决：
+luacom.cpp  添加
+#define LUACOM_DLL "luacom.dll"
+
+
+4.4 修改库 
+lua$(LUA_SUFFIX).lib
+-》 
+lua53.lib
+
+
+4.5
+luacom.obj : error LNK2019: 无法解析的外部符号 _luaL_openlib，该符号在函数 _luacom_open 中被引用
+---
+解决：
+a 删除了LUA_COMPAT_5_1
+重新修改报错的地方
+b luacom.cpp
+extern "C"
+{
+#include "lua.h"
+#include "lauxlib.h"
+
+#if (LUA_VERSION_NUM >= 502)
+#define luaL_register(L,n,f)  luaL_newlib(L,f)
+#endif
+}
+
+
+#if LUA_VERSION_NUM < 502
+  lua_newtable(L);
+  luaL_register(L, NULL, functions_tb);
+#else
+  luaL_newlib(L, functions_tb);
+#endif
+
+
+----
+得到dll
+
+运行测试：
+5.1 
+require "luacom"  报错
+D:\Github\Lua\MyLua\bin\\lua: tmp.lo: version mismatch in precompiled chunk
+stack traceback:
+        [C]: in ?
+        [C]: in function 'require'
+        test_all.lua:15: in main chunk
+----
+估计是luacom5.lua的语法问题
+
+---- 
+luacom.cpp
+
+#ifdef LUA_DEBUGGING
+  lua_dofile(L, "luacom5.lua");
+#else
+#include "luacom5.h"
+#endif
+
+
+5.2
+通过dllexp查看  和lua5.1版本的导出接口 没区别
+luacom_dll.h中定义了 
+extern "C" int luaopen_luacom(lua_State* L);
+----
+代码前部分注册库函数  可行
+后面部分的代码 会导致栈乱了？ 从而获取不到luacom对象
+
+----
+用lua5.1的版本测试了一下   
+创建非常慢：几分钟时间   技术太旧 不兼容了？
+local myExcel= luacom.CreateObject("Excel.Application")
+
+最后放弃了这个方案  改用
+https://github.com/zhangqi-ulua/XlsxToLua
+
+

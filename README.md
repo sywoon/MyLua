@@ -29,6 +29,7 @@
 12.[console] 修改控制台的颜色  用于错误的log用红色显示
 13. 图片信息[imlua](https://sourceforge.net/projects/imtoolkit/files/)
     [imtoolkit](http://imtoolkit.sourceforge.net/)
+14. [luacom](https://github.com/davidm/luacom)  没加成
 
 
 # windows中使用方式

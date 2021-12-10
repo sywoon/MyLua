@@ -34,12 +34,16 @@ local libs = {
     ["im"] = im,
 }
 
-for name, lib in pairs(libs) do
-	print("------", name)
-    for k, v in pairs(lib) do
-        print(k, v)
+do
+    local keys = table.keys(libs)
+    table.sort(keys)
+    for _, name in ipairs(keys) do
+        print("---[[" .. name .. "]]---")
+        for k, v in pairs(libs[name]) do
+            print(k, v)
+        end
+        print("\n")
     end
-    print("\n")
 end
 
 

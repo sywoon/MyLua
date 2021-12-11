@@ -1,0 +1,4 @@
+LIBRARY imlua.dll
+VERSION 3.15
+EXPORTS
+    luaopen_imlua

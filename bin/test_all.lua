@@ -12,6 +12,7 @@ local charset = require "charset"
 local crc32 = require "crc32"
 local console = require "console"
 local im = require "imlua"
+local xlsEdit = require "xlsEdit"
 
 print(_VERSION)
 for k, v in pairs(_G) do
@@ -32,6 +33,7 @@ local libs = {
     ["crc32"] = crc32,
     ["console"] = console,
     ["im"] = im,
+    ["xlsEdit"] = xlsEdit,
 }
 
 do

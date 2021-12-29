@@ -9,10 +9,9 @@ if exist "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A" (
 )
 
 set "WINKITS=C:\Program Files (x86)\Windows Kits\10"
-set "KITSVERSION=10.0.10586.0"
+set "KITSVERSION=10.0.19041.0"
 
 if exist "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x86\cl.exe" (
-    set "KITSVERSION=10.0.19041.0"
     call :vs2019
 )
 
@@ -45,8 +44,8 @@ echo --vs2015--
 set "VSCOMM=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7"
 set "VSVC=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC"
 
-set "include=%VSVC%\INCLUDE;%VSVC%\ATLMFC\INCLUDE;%WINSDK%\INCLUDE;%WINKITS%\Include\%KITSVERSION%\ucrt;%WINKITS%\Include\%KITSVERSION%\um;%include%;"
-set "lib=%VSVC%\LIB;%VSVC%\ATLMFC\LIB;%WINSDK%\LIB;%WINKITS%\Lib\%KITSVERSION%\ucrt\x86;%lib%"
+set "include=%VSVC%\INCLUDE;%VSVC%\ATLMFC\INCLUDE;%WINSDK%\INCLUDE;%WINKITS%\Include\%KITSVERSION%\ucrt;%WINKITS%\Include\%KITSVERSION%\um;%WINKITS%\Include\%KITSVERSION%\shared;%include%;"
+set "lib=%VSVC%\LIB;%VSVC%\ATLMFC\LIB;%WINSDK%\LIB;%WINKITS%\Lib\%KITSVERSION%\ucrt\x86;%WINKITS%\Lib\%KITSVERSION%\um\x86;%lib%"
 set "path=%VSVC%\BIN;%VSCOMM%\IDE;%VSCOMM%\TOOLS;%WINSDK%\BIN;%WINKITS%\Redist\ucrt\DLLs\x86;%path%"
 
 goto :eof

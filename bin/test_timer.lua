@@ -1,4 +1,4 @@
-local timer = require "timer"
+local timer = require "sllib.timer"
 
 table.print(timer)
 

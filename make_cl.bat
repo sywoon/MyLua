@@ -17,6 +17,7 @@ call :MAKE_CHARSET
 call :MAKE_CRC32
 call :MAKE_CONSOLE
 call :MAKE_XLS_EDIT
+call :MAKE_TIMER
 
 pause
 rmdir /Q /S output
@@ -134,4 +135,17 @@ cd ..
 
 copy /y output\\xlsEdit.dll bin
 goto :eof
+
+:MAKE_TIMER
+cd timer
+call make_cl.bat
+cd ..
+
+copy /y output\\timer\\core.dll bin
+goto :eof
+
+
+
+
+
 

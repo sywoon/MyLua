@@ -265,7 +265,7 @@ static const struct luaL_Reg libs[] = {
 };
 
 //L入栈参数是  "timer" 因为是require调用过来的
-DLL_API int luaopen_timer_core(lua_State* L) {
+DLL_API int luaopen_ctimer(lua_State* L) {
     luaL_register(L, "timer", libs);   //luaL_openlib已废弃
 
     //lua_pop(L, 1);  //'timer'  table  不能弹出 需要作为require的返回值

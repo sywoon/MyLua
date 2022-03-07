@@ -8,7 +8,7 @@
 #endif
 
 
-DLL_API int luaopen_timer_core(lua_State* L);
+DLL_API int luaopen_ctimer(lua_State* L);
 
 
 #endif

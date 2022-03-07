@@ -141,7 +141,7 @@ cd timer
 call make_cl.bat
 cd ..
 
-copy /y output\\timer\\core.dll bin
+copy /y output\\ctimer.dll bin
 goto :eof
 
 

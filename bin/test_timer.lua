@@ -1,4 +1,4 @@
-local timer = require "timer.core"
+local timer = require "ctimer"
 
 table.print(timer)
 

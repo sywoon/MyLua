@@ -1,6 +1,10 @@
 local ctimer = require "ctimer"
 local timer = timer or {}
 
+if not ctimer then
+    return timer
+end
+
 local _cbks = {}
 
 --业务自己维护name的唯一性

@@ -1,20 +1,41 @@
-local timer = require "ctimer"
+local timer = require "timer"
 
 table.print(timer)
 
-print("timestamp", timer.getTimestamp())
-table.print(timer.getTime())
-table.print(timer.getUtcTime())
 
-local idx = 0
-timer.startUpdate(function (stamp)
-    idx = idx + 1
-    print("update", idx, stamp)
-    if idx == 10 then
-        timer.stopUpdate()
-    end
-end, 300)
+print(timer.time(), timer.millitime())
+table.print(timer.timeinfo())
 
-timer.waitUpdate()
+timer.after(2000, function (stamp)
+    print("after cbk", stamp)
+end)
 
-print("lua end")
+timer.repeats(1000, function (stamp)
+    print("repeats cbk", stamp)
+end, 3, {endCbk=function (stamp)
+    print("repeats end", stamp)
+    timer.stopUpdate()
+end})
+
+function main()
+    timer.startUpdate()
+    timer.waitUpdate()
+end
+
+
+xpcall(main, function (err)
+    print(err)
+    print(debug.traceback(2))
+end)
+
+
+
+
+
+
+
+
+
+
+
+

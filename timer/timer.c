@@ -75,8 +75,12 @@ static void updateInterCall()
         lua_rawgeti(L, LUA_REGISTRYINDEX, s_refUpdateCall);  //for lua5.3
         lua_pushinteger(L, getMilliTime(0));
 
-        if (lua_pcall(L, 1, 0, 0))
+        if (lua_pcall(L, 1, 0, 0)) {
             printf("error:%s\n", lua_tostring(L, -1));
+            luaL_traceback(L, L, NULL, 1);
+            printf("%s\n", lua_tostring(L, -1));
+            exit(-1);
+        }
     }
 }
 

@@ -13,7 +13,7 @@ local crc32 = require "crc32"
 local console = require "console"
 local im = require "imlua"
 local xlsEdit = require "xlsEdit"
-local timer = require "timer.core"
+local timer = require "ctimer"
 
 print(_VERSION)
 for k, v in pairs(_G) do

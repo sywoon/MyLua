@@ -15,7 +15,8 @@ function json.encode(t)
     if status then
         return result
     else
-        print("json.encode failed", result)
+        printe("json.encode failed", result, table.tostring(t))
+        print(debug.traceback())
         return nil
     end
 end
@@ -31,7 +32,8 @@ function json.decode(str)
     if status then
         return result
     else
-        print("json.encode failed", result)
+        printe("json.decode failed", result, str)
+        print(debug.traceback())
         return nil
     end
 end

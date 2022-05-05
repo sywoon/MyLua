@@ -31,7 +31,7 @@ function test()
     test2(co.lock())
     
     if co.wait() then
-        print("before end")
+        print("before2 end")
         return
     end
     print("co end")

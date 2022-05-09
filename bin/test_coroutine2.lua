@@ -1,188 +1,63 @@
+--测试多层协程 创建和恢复次序
+--结论：
+-- 按协程创建的顺序 反向恢复  只有所有协程结束后 才会回到主线程
+-- 只有yield方式 挂起的协程才可以用resume恢复
+--   比如：父协程 创建 子协程 并resume =》子协程 yield =》 父协程也yield
+--   之后恢复的子协程 可以通过resume方式恢复父协程
+
+--注意：
+-- 1 lua5.1和lua5.3 针对主线程中是否有默认的协程 处理不同 
+--    coroutine.running() 前者为nil 后者有具体的值 且处于running状态  切换后也能变成normal
+
 local co = coroutine
 
+local co_pool = {}
 
-function pack(...)
-    return {...}
-end
-
-
-function _coroutine(func, ...)
-    local args = {...}
-    while func do
-        local ret = pack(func(unpack(args)))
-        args = co.yield(unpack(ret))  --启动子函数返回 函数名+参数
-        func = args[1]
-        table.remove(args, 1)
+function dump()
+    for name, c in pairs(co_pool) do
+        print(name, c, co.status(c))
     end
 end
 
-function _resume(c, func, ...)
-    if func then
-        ret = pack(co.resume(c, func, ...))
-    else
-        ret = pack(co.resume(c, ...))
-    end
-    local status, msg = ret[1], ret[2]
-    if not status then
-        print(msg .. debug.traceback(c))
-    else
-        table.remove(ret, 1)
-    end
-    return status, ret
+function sub2()
+    print("sub2 step1")
+    dump()
+    co.yield()   --恢复到sub1中 而非main中 因为sub1处于normal状态
+    print("sub2 step2")
+    dump()
+    co.yield()   --恢复到main中 而非sub1中 因为sub1已经挂起
+    print("sub2 step3")
 end
 
-
-function co.start(func, ...)
-   local c = co.create(_coroutine) 
-   _resume(c, func, ...)
-   return c
-end
-
-
-local yield_map = {}
-function co.yieldstart(func, cbk, ...)
-    --主协程
-    local c = coroutine.running() or 
-            error ('coroutine.yieldstart must be run in coroutine')
-    local map = {parent = c, cbk = cbk, waiting=false, over=false}
-    local child = co.createcroutine(_coroutine)
-    yield_map[child] = map
+function sub1()
+    print("sub1 step1")
+    local c2 = co.create(sub2)
+    co_pool["c2"] = c2
     
-    local status, ret = _resume(child, func, ...)
-    if not status then
-        yield_map[child] = nil
-        return nil
-    elseif map.over then
-        yield_map[child] = nil
-        if not ret then
-            return nil
-        else
-            return unpack(ret)
-        end
-    else
-        map.waiting = true
-        local ret2 = pack(co.yield())
-        yield_map[child] = nil
-        return unpack(ret2)
-    end
-end
-
-function co.yieldreturn(...)
-    local c = coroutine.running() or 
-            error ('coroutine.yieldstart must be run in coroutine') 
-    local map = yield_map[c]
-    if not map or not map.parent then
-        return
-    end
+    local flag, ret = co.resume(c2)
+    print("sub1 step2")
     
-    local parent = map.parent
-    local cbk = map.cbk
-    cbk(c, ...)
-    return co.waitforframes(1)
-end
-
-function co.yieldcbk(c, ...)
-    local map = yield_map[c]
-    if not map or not map.parent then
-        return
-    end
+    --测试1： 如果主动挂起 不能被sub2的yield恢复 只能通过resume
+    --co.yield()
     
-    map.cbk(co, ...)
+    --测试2： 若重新恢复sub2  是否还会回来？  测试结果：还是normal状态 而且sub2的yield会回来
+    co.resume(c2)
+    print("sub1 step3")
 end
 
-
-function co.yieldbreak(...)
-    local c = coroutine.running() or 
-            error ('coroutine.yieldstart must be run in coroutine') 
-    local map = yield_map[c]
-    if not map then
-        return ...
-    end
+function main()
+    print("main step1")
+    co_pool["main"] = co.running()
     
-    map.over = true
-    if not map.waiting then
-        return ...
-    end
-    return _resume(map.parent, nil, ...)
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function test1(cbk)
-    print("test1")
-    timer.after(2000, function ()
-        print("test1 end")
-        cbk()
-    end)
-end
-
-function test2(cbk)
-    print("test2")
-    timer.after(3000, function ()
-        print("test2 end")
-        timer.stopUpdate()
-        co.stopAll()
-        --cbk()
-    end)
-end
-
-function test()
-    print("co start")
-    test1(co.lock())
-    if co.wait() then
-        print("before end")
-        return
-    end
+    local c1 = co.create(sub1)
+    co_pool["c1"] = c1
     
-    print("co next")
-    test2(co.lock())
-    
-    if co.wait() then
-        print("before2 end")
-        return
-    end
-    print("co end")
+    local flag, ret = co.resume(c1)
+    print("main step2")
+    dump()
+    co.resume(co_pool["c2"])  --主动恢复c2 测试它再次yield后 是回到主线程 还是回到sub1？
+    print("main step3")
+    dump()
 end
 
-
-timer.startUpdate()
-c = co.start(test)
-timer.waitUpdate()
-
-print("lua end")
-print(co.status(c))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+main()

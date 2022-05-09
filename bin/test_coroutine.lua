@@ -1,5 +1,13 @@
 local co = coroutine
 
+local co_pool = {}
+
+function dump(msg)
+    print(msg)
+    for name, c in pairs(co_pool) do
+        print(name, c, co.status(c))
+    end
+end
 
 function test1(cbk)
     print("test1")
@@ -21,11 +29,15 @@ end
 
 function test()
     print("co start")
+    co_pool["c1"] = co.running()
+    
     test1(co.lock())
     if co.wait() then
         print("before end")
         return
     end
+
+    dump("middle") 
     
     print("co next")
     test2(co.lock())
@@ -37,12 +49,15 @@ function test()
     print("co end")
 end
 
+co_pool["main"] = co.running()
+dump("begin") 
 
 timer.startUpdate()
 c = co.start(test)
 timer.waitUpdate()
 
 print("lua end")
+dump("end") 
 print(co.status(c))
 
 

@@ -1,0 +1,5 @@
+LIBRARY cmsgpack.dll
+VERSION 0.3
+EXPORTS
+luaopen_cmsgpack
+luaopen_cmsgpack_safe

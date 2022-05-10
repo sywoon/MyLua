@@ -13,7 +13,7 @@ call :MAKE_TIMER
 call :MAKE_XLS_EDIT
 call :MAKE_ZLIB
 call :MAKE_ZLIB_STREAM
-
+call :MAKE_MSG_PACK
 
 
 pause
@@ -150,6 +150,13 @@ copy /y output\\ctimer.dll bin
 goto :eof
 
 
+:MAKE_MSG_PACK
+cd msgpack
+call make_cl.bat
+cd ..
+
+copy /y output\\cmsgpack.dll bin
+goto :eof
 
 
 

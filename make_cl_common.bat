@@ -2,7 +2,6 @@
 
 
 call :MAKE_CJSON
-pause goto :eof
 call :MAKE_CONSOLE
 call :MAKE_CRC32
 call :MAKE_LFS

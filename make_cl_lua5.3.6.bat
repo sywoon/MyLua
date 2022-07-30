@@ -9,7 +9,7 @@ rmdir /Q /S output
 mkdir output
 mkdir bin 2>nul
 
-::call :MAKE_LUA
+call :MAKE_LUA
 
 call make_cl_common.bat
 

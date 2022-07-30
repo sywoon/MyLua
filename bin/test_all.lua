@@ -14,7 +14,7 @@ local console = require "console"
 local im = require "imlua"
 local xlsEdit = require "xlsEdit"
 local timer = require "ctimer"
-local msgpack = require "msgpack"
+local msgpack = require "cmsgpack"
 
 print(_VERSION)
 for k, v in pairs(_G) do

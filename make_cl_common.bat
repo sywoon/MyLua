@@ -1,7 +1,8 @@
 @echo off
 
-call :MAKE_CHARSET
+
 call :MAKE_CJSON
+pause goto :eof
 call :MAKE_CONSOLE
 call :MAKE_CRC32
 call :MAKE_LFS
@@ -14,6 +15,7 @@ call :MAKE_XLS_EDIT
 call :MAKE_ZLIB
 call :MAKE_ZLIB_STREAM
 call :MAKE_MSG_PACK
+call :MAKE_CHARSET
 
 
 pause

@@ -9,5 +9,5 @@ if "%~dp0"=="%~dp1" (
 )
 
 ::echo %*
-call %~dp0\lua -e "%luastring%" %~nx1 %~2 %~3 %~4 %~5 %~6 %~7 %~8 %~9
+call %~dp0\lua -e "%luastring%" %~1 %~2 %~3 %~4 %~5 %~6 %~7 %~8 %~9
 

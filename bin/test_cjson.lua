@@ -9,3 +9,8 @@ file:close()
 data = json.decode(data)
 table.print(data)
 print(data["release"]["excel"])
+print(math.type(data["release"]["excel"]))
+
+print(data["master"]["excel"])
+print(math.type(data["master"]["excel"]))
+

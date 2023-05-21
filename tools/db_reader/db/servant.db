@@ -1,0 +1,1 @@
+return {key = "id",head = {"id","name","openLv","maxLv","maxAttrValues","icon","img","effectId","icon2","cdTime",},data = {{1,"18ºÅ",2,200,"HP#4160|ATT#320|GROW#1.5","12041","12040","40108","6133",20,},},}

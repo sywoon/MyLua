@@ -1,5 +1,5 @@
 
-local CData = require "constraint_data"
+local CData = require "data.constraint_data"
 local TCData = class("TransformConstraintData", CData)
 
 function TCData:ctor(name)

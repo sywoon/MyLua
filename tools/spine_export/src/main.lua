@@ -6,6 +6,9 @@ local SkeletonBinary = require "skeleton_binary"
 
 
 function main(resPath)
+    local atlas = resPath .. "spineboy/spineboy.atlas"
+	local atlasLoader = AtlasAttachmentLoader.new(atlas)
+
     local sb = SkeletonBinary.new()
 
     local skelPath = resPath .. "spineboy/spineboy.skel"

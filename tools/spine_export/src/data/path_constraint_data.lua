@@ -1,4 +1,4 @@
-local CData = require "constraint_data"
+local CData = require "data.constraint_data"
 local PCData = class("PathConstraintData", CData)
 
 

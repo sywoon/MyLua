@@ -1,15 +1,17 @@
 require "global"
 require "spine_const"
+local TextureAtlas = require "atlas.texture_atlas"
+local AtlasAttachmentLoader = require "attachment.atlas_attachment_loader"
 local SkeletonBinary = require "skeleton_binary"
-
--- require("LuaPanda").start("127.0.0.1", 8818)
 
 
 function main(resPath)
-    local atlas = resPath .. "spineboy/spineboy.atlas"
-	local atlasLoader = AtlasAttachmentLoader.new(atlas)
+    local path = resPath .. "spineboy/spineboy.atlas"
+    local textureAtlas = TextureAtlas.new()
+    textureAtlas:load(path)
+	local atlasLoader = AtlasAttachmentLoader.new(textureAtlas)
 
-    local sb = SkeletonBinary.new()
+    local sb = SkeletonBinary.new(atlasLoader)
 
     local skelPath = resPath .. "spineboy/spineboy.skel"
     sb:readSkeletonData(skelPath)

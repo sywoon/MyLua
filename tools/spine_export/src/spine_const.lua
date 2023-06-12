@@ -33,6 +33,9 @@ TextureWrap = {
     Repeat = 10497 -- WebGLRenderingContext.REPEAT
 }
 
-
+RegionType = {
+    Texture,
+    TextureAtlas,
+}
 
 

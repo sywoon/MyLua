@@ -1,4 +1,4 @@
-local VertexAttachment = require "vertex_attachment"
+local VertexAttachment = require "attachment.vertex_attachment"
 local MeshAttachment = class("MeshAttachment", VertexAttachment)
 
 

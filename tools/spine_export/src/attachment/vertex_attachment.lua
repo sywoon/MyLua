@@ -1,5 +1,5 @@
 
-local Attachment = require "attachment"
+local Attachment = require "attachment.attachment"
 local VAttachment = class("VertexAttachment", Attachment)
 
 local NEW_ID = 1

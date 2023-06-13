@@ -298,7 +298,7 @@ function SB:readSkin(input, skeletonData, defaultSkin, nonessential)
             local name = input:readStringRef()
             local attachment = self:readAttachment(input, skeletonData, skin, slotIndex, name, nonessential)
             if attachment ~= nil then
-                skin:setAttachment(slotIndex, name, attachment);
+                skin:setAttachment(slotIndex, name, attachment)
             end
         end
         return skin
@@ -323,7 +323,7 @@ function SB:readAttachment(input, skeletonData, skin, slotIndex, attachmentName,
     elseif type == AttachmentType.Point then
         return self:readAttachment_Point(input, name, skin, nonessential)
     elseif type == AttachmentType.Clipping then
-        return self:readAttachment_Clipping(input, name, skin, nonessential)
+        return self:readAttachment_Clipping(input, name, skin, nonessential, skeletonData)
     end
 end
 
@@ -485,7 +485,7 @@ function SB:readAttachment_Point(input, name, skin, nonessential)
     return point
 end
 
-function SB:readAttachment_Clipping(input, name, skin, nonessential)
+function SB:readAttachment_Clipping(input, name, skin, nonessential, skeletonData)
     local endSlotIndex = input:readInt(true)
     local vertexCount = input:readInt(true)
     local vertices = self:readVertices(input, vertexCount)

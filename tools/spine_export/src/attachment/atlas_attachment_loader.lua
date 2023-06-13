@@ -1,3 +1,9 @@
+local RegionAttachment = require "attachment.region_attachment"
+local MeshAttachment = require "attachment.mesh_attachment"
+local BoundingBoxAttachment = require "attachment.bounding_box_attachment"
+local PathAttachment = require "attachment.path_attachment"
+local PointAttachment = require "attachment.point_attachment"
+local ClippingAttachment = require "attachment.clipping_attachment"
 
 local ALoader = require "attachment.attachment_loader"
 local AALoader = class("AtlasAttachmentLoader", ALoader)
@@ -23,23 +29,31 @@ function AALoader:newRegionAttachment(skin, name, path)
 end
 
 function AALoader:newMeshAttachment(skin, name, path)
-    assert(false, "newMeshAttachment")
+    local region = self.atlas:findRegion(path)
+    if nil == region then
+        error("region not found:" .. path)
+        return
+    end
+    region.renderObject = region
+    local attachment = MeshAttachment.new(name)
+    attachment.region = region
+    return attachment
 end
 
 function AALoader:newBoundingBoxAttachment(skin, name)
-    assert(false, "newBoundingBoxAttachment")
+    return BoundingBoxAttachment.new(name)
 end
 
 function AALoader:newPathAttachment(skin, name)
-    assert(false, "newPathAttachment")
+    return PathAttachment.new(name)
 end
 
 function AALoader:newPointAttachment(skin, name)
-    assert(false, "newPointAttachment")
+    return PointAttachment.new(name)
 end
 
 function AALoader:newClippingAttachment(skin, name)
-    assert(false, "newClippingAttachment")
+    return ClippingAttachment.new(name)
 end
 
 

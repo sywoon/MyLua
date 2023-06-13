@@ -1,7 +1,7 @@
 
-
 local TextureAtlasReader = require "atlas.texture_atlas_reader"
 local TextureAtlasPage = require "atlas.texture_atlas_page"
+local TextureAtlasRegion = require "atlas.texture_atlas_region"
 local TextureAtlas = class("TextureAtlas")
 
 
@@ -25,7 +25,8 @@ function TextureAtlas:load(path)
             break
         end
         line = string.trim(line)  --spineboy.png
-        if line.length == 0 then
+        print("line", #line, line)
+        if #line == 0 then
             page = nil
         elseif not page then
             page = TextureAtlasPage.new()
@@ -40,7 +41,7 @@ function TextureAtlas:load(path)
             page.minFilter = tuple
             page.magFilter = tuple
 
-            local direction= reader.readValue()  --repeat: none
+            local direction= reader:readValue()  --repeat: none
             page.uWrap = TextureWrap.ClampToEdge  --spine没做支持？
             page.vWrap = TextureWrap.ClampToEdge
             if direction == "x" then
@@ -53,10 +54,10 @@ function TextureAtlas:load(path)
             end
 
             page.texture = nil  --textureLoader(line)  --spineboy.png
-            page.texture.setFilters(page.minFilter, page.magFilter)
-            page.texture.setWraps(page.uWrap, page.vWrap)
-            page.width = page.texture.getImage().width
-            page.height = page.texture.getImage().height
+            -- page.texture:setFilters(page.minFilter, page.magFilter)
+            -- page.texture:setWraps(page.uWrap, page.vWrap)
+            -- page.width = page.texture:getImage().width
+            -- page.height = page.texture:getImage().height
             table.insert(self.pages, page)
         else
             local region = TextureAtlasRegion.new()

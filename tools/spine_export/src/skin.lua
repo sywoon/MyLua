@@ -2,7 +2,7 @@
 local Skin = class("Skin")
 
 
-function Skin:cotr()
+function Skin:ctor()
     self.name = ""
     self.attachments = {}  --Array<Map<Attachment>>
     self.bones = {}         --Array<BoneData>
@@ -10,8 +10,8 @@ function Skin:cotr()
 end
 
 function Skin:setAttachment(slotIdx, name, attachment)
-    if attachement == nil then
-        error("attachement cannot be null")
+    if attachment == nil then
+        error("attachment cannot be null")
     end
     local attach = self.attachments
     if not attach[slotIdx] then

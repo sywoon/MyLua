@@ -1,5 +1,5 @@
 
-local TextureRegion = require "texture_region"
+local TextureRegion = require "atlas.texture_region"
 local TextureAtlasRegion = class("TextureAtlasRegion", TextureRegion)
 
 

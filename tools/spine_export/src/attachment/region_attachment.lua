@@ -1,4 +1,4 @@
-
+local Color = require "color"
 local Attachment = require "attachment.attachment"
 local RegionAttachment = class("RegionAttachment", Attachment)
 
@@ -47,14 +47,14 @@ function RegionAttachment:updateOffset()
     local localY2Cos = localY2 * cos + self.y
     local localY2Sin = localY2 * sin
     local offset = self.offset
-    offset[RegionAttachment.OX1] = localXCos - localYSin
-    offset[RegionAttachment.OY1] = localYCos + localXSin
-    offset[RegionAttachment.OX2] = localXCos - localY2Sin
-    offset[RegionAttachment.OY2] = localY2Cos + localXSin
-    offset[RegionAttachment.OX3] = localX2Cos - localY2Sin
-    offset[RegionAttachment.OY3] = localY2Cos + localX2Sin
-    offset[RegionAttachment.OX4] = localX2Cos - localYSin
-    offset[RegionAttachment.OY4] = localYCos + localX2Sin
+    offset[OX1] = localXCos - localYSin
+    offset[OY1] = localYCos + localXSin
+    offset[OX2] = localXCos - localY2Sin
+    offset[OY2] = localY2Cos + localXSin
+    offset[OX3] = localX2Cos - localY2Sin
+    offset[OY3] = localY2Cos + localX2Sin
+    offset[OX4] = localX2Cos - localYSin
+    offset[OY4] = localYCos + localX2Sin
 end
 
 function RegionAttachment:setRegion(region)

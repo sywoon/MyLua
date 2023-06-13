@@ -2,13 +2,14 @@
 local Skin = class("Skin")
 
 
-function Skin:ctor()
-    self.name = ""
+function Skin:ctor(name)
+    self.name = name
     self.attachments = {}  --Array<Map<Attachment>>
     self.bones = {}         --Array<BoneData>
     self.constraints = {}   --Array<ConstraintData>
 end
 
+-- slotIdx:base 1
 function Skin:setAttachment(slotIdx, name, attachment)
     if attachment == nil then
         error("attachment cannot be null")

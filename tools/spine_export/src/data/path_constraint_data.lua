@@ -38,5 +38,16 @@ function PCData:ctor(name)
     self.translateMix = 0
 end
 
+function PCData:dump(pre)
+    pre = pre or ""
+    print(pre .. _F([[ PathConstraintData name:%s order:%d skinRequired:%d targetSlotIdx:%d
+            positionMode:%d spacingMode:%d rotateMode:%d offsetRotation:%f position:%f 
+            spacing:%f rotateMix:%f translateMix:%f]],
+        self.name, self.order, self.skinRequired and 1 or 0, self.targetSlotIdx,
+        self.positionMode, self.spacingMode, self.rotateMode, self.offsetRotation,
+        self.position, self.spacing, self.rotateMix, self.translateMix
+    ))
+end
+
 
 return PCData

@@ -24,8 +24,8 @@ function AALoader:newRegionAttachment(skin, name, path)
     region.renderObject = region
 
     local attachment = RegionAttachment.new(name)
-    attachment.setRegion(region);
-    return attachment;
+    attachment:setRegion(region)
+    return attachment
 end
 
 function AALoader:newMeshAttachment(skin, name, path)

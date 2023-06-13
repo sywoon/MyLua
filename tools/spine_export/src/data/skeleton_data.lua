@@ -55,7 +55,19 @@ function SD:dump()
         ikConstraint:dump(pre)
     end
 
+    print(" transformConstraints count:", #self.transformConstraints)
+    for i = 1, #self.transformConstraints do
+        local tc = self.transformConstraints[i]
+        print("  transformConstraints:" .. i)
+        tc:dump(pre)
+    end
     
+    print(" pathConstraints count:", #self.pathConstraints)
+    for i = 1, #self.pathConstraints do
+        local path = self.pathConstraints[i]
+        print("  pathConstraints:" .. i)
+        path:dump(pre)
+    end
 end
 
 return SD

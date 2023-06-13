@@ -118,7 +118,7 @@ function TextureAtlas:load(path)
 end
 
 function TextureAtlas:findRegion(name)
-    for _, region in ipairs(this.regions) do
+    for _, region in ipairs(self.regions) do
         if region.name == name then
             return region
         end

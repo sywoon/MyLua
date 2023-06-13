@@ -1,3 +1,4 @@
+local Color = require "color"
 local VertexAttachment = require "attachment.vertex_attachment"
 local MeshAttachment = class("MeshAttachment", VertexAttachment)
 
@@ -28,9 +29,9 @@ function MeshAttachment:updateUVs()
     local u, v = self.region.u, self.region.v
     local width, height = 0, 0
     if self.region and self.region.type == RegionType.TextureAtlas then
-        local regioin = self.region
-        local textureWidth = region.texture:getImage().width
-        local textureHeight = region.texture:getImage().height
+        local region = self.region
+        local textureWidth = region.page.width  --region.texture:getImage().width
+        local textureHeight = region.page.height --region.texture:getImage().height
         if region.degrees == 90 then
             u = u - (region.originalHeight - region.offsetY - region.height) / textureWidth
             v = v - (region.originalWidth - region.offsetX - region.width) / textureHeight

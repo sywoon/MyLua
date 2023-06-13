@@ -173,7 +173,6 @@ function SB:readSkeletonData(skelFile)
         -- print("ik", i, n)
         -- data:dump()
     end
-    sd:dump()
 
     -- Transform constraints
     local n = input:readInt(true)
@@ -247,7 +246,9 @@ function SB:readSkeletonData(skelFile)
         table.insert(sd.skins, defaultSkin)
     end
 
-    print("end")
+    -- sd:dump()
+
+    print("readSkeletonData end")
 end
 
 function SB:readSkin(input, skeletonData, defaultSkin, nonessential)
@@ -263,21 +264,21 @@ function SB:readSkin(input, skeletonData, defaultSkin, nonessential)
         skin = Skin.new("default")
     else
         skin = Skin.new(input:readStringRef());
-        skin.bones.length = input.readInt(true);
+        skin.bones.length = input:readInt(true);
         for i = 1, skin.bones.length do
-            skin.bones[i+1] = skeletonData.bones[input:readInt(true)]
+            skin.bones[i] = skeletonData.bones[input:readInt(true)+1]
         end
 
         for i = 1, input:readInt(true) do
-            local constraint = skeletonData.ikConstraints[input:readInt(true)]
+            local constraint = skeletonData.ikConstraints[input:readInt(true)+1]
             table.insert(skin.constraints, constraint)
         end
         for i = 1, input:readInt(true) do
-            local constraint = skeletonData.transformConstraints[input:readInt(true)]
+            local constraint = skeletonData.transformConstraints[input:readInt(true)+1]
             table.insert(skin.constraints, constraint)
         end
         for i = 1, input:readInt(true) do
-            local constraint = skeletonData.pathConstraints[input:readInt(true)]
+            local constraint = skeletonData.pathConstraints[input:readInt(true)+1]
             table.insert(skin.constraints, constraint)
         end
         slotCount = input:readInt(true)
@@ -285,15 +286,17 @@ function SB:readSkin(input, skeletonData, defaultSkin, nonessential)
 
     for i = 1, slotCount do
         local slotIndex = input:readInt(true)
-        for ii = 1, input:readInt(true) do
+        local count =  input:readInt(true)
+        print("slotCount sub count", i, slotCount, slotIndex, count)
+        for ii = 1, count do
             local name = input:readStringRef()
             local attachment = self:readAttachment(input, skeletonData, skin, slotIndex, name, nonessential)
             if attachment ~= nil then
-                skin:setAttachment(slotIndex, name, attachment)
+                skin:setAttachment(slotIndex+1, name, attachment)
             end
         end
-        return skin
     end
+    return skin
 end
 
 function SB:readAttachment(input, skeletonData, skin, slotIndex, attachmentName, nonessential)
@@ -301,6 +304,7 @@ function SB:readAttachment(input, skeletonData, skin, slotIndex, attachmentName,
     local name = input:readStringRef() or attachmentName
     local typeIndex = input:readByte()
     local type = AttachmentTypeValues[typeIndex+1]
+    -- print("readAttachment", type)
     if type == AttachmentType.Region then
         return self:readAttachment_Region(input, name, skin, nonessential)
     elseif type == AttachmentType.BoundingBox then
@@ -333,6 +337,8 @@ function SB:readAttachment_Region(input, name, skin, nonessential)
     if not region then
         return nil
     end
+
+    local scale = self.scale
     region.path = path
     region.x = x * scale
     region.y = y * scale
@@ -398,8 +404,8 @@ function SB:readAttachment_Mesh(input, name, skin, nonessential)
 
     if nonessential then
         mesh.edges = edges
-        mesh.width = width * scale
-        mesh.height = height * scale
+        mesh.width = width * self.scale
+        mesh.height = height * self.scale
     end
     return mesh
 end

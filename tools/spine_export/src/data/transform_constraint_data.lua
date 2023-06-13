@@ -21,8 +21,9 @@ function TCData:ctor(name)
     self.isLocal = false
 end
 
-function TCData:dump()
-    print(_F([[TCData name:%s order:%d skinRequired:%d targetBoneIdx:%d rotateMix:%f 
+function TCData:dump(pre)
+    pre = pre or ""
+    print(pre .. _F([[ TCData name:%s order:%d skinRequired:%d targetBoneIdx:%d rotateMix:%f 
             translateMix:%f scaleMix:%f shearMix:%f offsetRotation:%f
             offsetX:%f offsetY:%f offsetScaleX:%f offsetScaleY:%f offsetShearY:%f 
             relative:%d isLocal:%d

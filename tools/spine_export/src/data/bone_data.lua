@@ -12,7 +12,7 @@ BD.TransformMode = TransformMode
 
 
 function BD:ctor(index, name, parent)
-    self.index = index  --base:0
+    self.index = index  --base:1
     self.name = name
     self.parent = parent
 
@@ -29,11 +29,13 @@ function BD:ctor(index, name, parent)
     self.length = 0
 end
 
-function BD:dump()
-    print(_F([[xy:[%f,%f] rotation:%f scale:[%f,%f] shear:[%f,%f] mode:%f 
-            color:[%f,%f,%f,%f] length:%f, mode:%d skin:%d]], 
+function BD:dump(pre)
+    pre = pre or ""
+    -- print(pre .. "--BoneData desc--")
+    print(pre .. _F([[ bone index:%d name:%s xy:[%f,%f] rotation:%f scale:[%f,%f] shear:[%f,%f] color:[%f,%f,%f,%f] length:%f, mode:%d skin:%d]], 
+        self.index, self.name,
         self.x, self.y, self.rotation,
-        self.scaleX, self.scaleY, self.shearX, self.shearY, self.transformMode,
+        self.scaleX, self.scaleY, self.shearX, self.shearY, 
         self.color.r, self.color.g, self.color.b, self.color.a,
         self.length, self.transformMode, (self.skinRequired and 1 or 0)
     ))

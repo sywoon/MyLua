@@ -2,7 +2,7 @@ local struct = require "struct"
 local BI = class("BinaryInput")
 
 --最高16位 模拟js的String.fromCharCode
-function fromCharCode(code)
+local function fromCharCode(code)
     if code <= 255 then
         return string.char(code)
     end
@@ -97,7 +97,7 @@ function BI:readString()
         end
     end
     local out = table.concat(chars, "")
-    print("readstring", out)
+    -- print("readstring", out)
     return out
 end
 
@@ -106,7 +106,7 @@ function BI:readStringRef()
     if idx == 0 then
         return nil
     end
-    print("readStringRef", idx, #self.strings)
+    -- print("readStringRef", idx, #self.strings)
     return self.strings[idx]
 end
 

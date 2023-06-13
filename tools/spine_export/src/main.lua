@@ -25,3 +25,4 @@ local resPath = arg[2] or "E:/Github/Lua/MyLua/tools/spine_export/res"
 logs.clear()
 logs.setLogPath(toolsPath .. "log.txt")
 main(resPath)
+

@@ -61,7 +61,7 @@ local SB = class("SkeletonBinary")
 
 function SB:ctor(attachmentLoader)
     self.scale = 1
-    self.attachmentLoader = attachmentLoader;
+    self.attachmentLoader = attachmentLoader
 end
 
 function SB:readSkeletonData(skelFile)
@@ -71,13 +71,10 @@ function SB:readSkeletonData(skelFile)
         return
     end
 
-    print("read skel", skelFile, #data)
     local input = BinaryInput.new(data)
     local sd = SD.new()
     sd.hash = input:readString()
-    print("hash")
     sd.version = input:readString()
-    print("version")
     sd.x = input:readFloat()
     sd.y = input:readFloat()
     sd.width = input:readFloat()
@@ -87,34 +84,29 @@ function SB:readSkeletonData(skelFile)
     if nonessential then
         sd.fps = input:readFloat()
         sd.imagesPath = input:readString()
-        print('imagesPath')
         sd.audioPath = input:readString()
-        print('audioPath')
     end
-
+    
     -- strings
     local n = input:readInt(true)
-    print("strings", n)
     for i = 1, n, 1 do
         table.insert(input.strings, input:readString())
     end
-    table.print(input.strings)
+    table.print("strings", input.strings)
 
     --bones
     local scale = self.scale
     local n = input:readInt(true)
-    print("bones", n)
     for i = 1, n do
         local name = input:readString()
-        print('name')
         --注意lua还是会执行input:readInt(true)
         -- local parent = i == 1 and nil or sd.bones[input:readInt(true)]
         local parent = nil
         if i > 1 then
-            parent = sd.bones[input:readInt(true)]
+            parent = sd.bones[input:readInt(true)+1]
         end
 
-        local data = BoneData.new(i-1, name, parent)
+        local data = BoneData.new(i, name, parent)
         data.rotation = input:readFloat()
         data.x = input:readFloat() * scale
         data.y = input:readFloat() * scale
@@ -130,7 +122,6 @@ function SB:readSkeletonData(skelFile)
         if nonessential then
             Color.rgba8888ToColor(data.color, input:readInt32());
         end
-
         table.insert(sd.bones, data)
         -- print("bone", i, n)
         -- data:dump()
@@ -138,12 +129,11 @@ function SB:readSkeletonData(skelFile)
 
     --slots
     local n = input:readInt(true)
-    print("slots", n)
     for i = 1, n, 1 do
         local slotName = input:readString()
         local boneIdx = input:readInt(true)
-        local boneData = sd.bones[boneIdx]
-        local data = SlotData.new(i-1, slotName, boneData, boneIdx)
+        local boneData = sd.bones[boneIdx+1]
+        local data = SlotData.new(i, slotName, boneData, boneIdx+1)
         Color.rgba8888ToColor(data.color, input:readInt32())
 
         local darkColor = input:readInt32()
@@ -183,6 +173,7 @@ function SB:readSkeletonData(skelFile)
         -- print("ik", i, n)
         -- data:dump()
     end
+    sd:dump()
 
     -- Transform constraints
     local n = input:readInt(true)

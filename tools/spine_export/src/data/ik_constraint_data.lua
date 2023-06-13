@@ -16,8 +16,10 @@ function IKData:ctor(name)
     self.softness = 0
 end
 
-function IKData:dump()
-    print(_F([[IKData name:%s order:%d skinRequired:%d targetBoneIdx:%d dir:%d 
+function IKData:dump(pre)
+    pre = pre or ""
+    print(pre .. "--IKConstraintData desc--")
+    print(pre .. _F([[name:%s order:%d skinRequired:%d targetBoneIdx:%d dir:%d 
             compress:%d stretch:%d uniform:%d mix:%d softness:%d]],
         self.name, self.order, self.skinRequired and 1 or 0, self.targetBoneIdx, self.bendDirection,
         self.compress and 1 or 0, self.stretch and 1 or 0, self.uniform and 1 or 0,

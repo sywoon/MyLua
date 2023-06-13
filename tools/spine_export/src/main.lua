@@ -9,8 +9,9 @@ function main(resPath)
     local path = resPath .. "spineboy/spineboy.atlas"
     local textureAtlas = TextureAtlas.new()
     textureAtlas:load(path)
-	local atlasLoader = AtlasAttachmentLoader.new(textureAtlas)
+    textureAtlas:dump()
 
+	local atlasLoader = AtlasAttachmentLoader.new(textureAtlas)
     local sb = SkeletonBinary.new(atlasLoader)
 
     local skelPath = resPath .. "spineboy/spineboy.skel"

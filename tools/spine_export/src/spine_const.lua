@@ -33,6 +33,12 @@ TextureWrap = {
     Repeat = 10497 -- WebGLRenderingContext.REPEAT
 }
 
+TextureWrapName = {
+    [TextureWrap.MirroredRepeat] = "MirroredRepeat",
+    [TextureWrap.ClampToEdge] = "ClampToEdge",
+    [TextureWrap.Repeat] = "Repeat",
+}
+
 RegionType = {
     Texture,
     TextureAtlas,

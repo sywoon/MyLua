@@ -2,6 +2,10 @@
 
 local TextureAtlasReader = class("TextureAtlasReader")
 
+local function log(...)
+    -- print("[TextureAtlasReader]", ...)
+end
+
 function TextureAtlasReader:ctor(text)
     self.lines = string.split(text, "[\r\n]")
     self.index = 1
@@ -10,7 +14,7 @@ end
 function TextureAtlasReader:readLine()
     local line = self.lines[self.index]
     self.index = self.index + 1
-    print("readLine", line, self.index, #self.lines)
+    log("readLine", line, self.index, #self.lines)
     return line
 end
 
@@ -34,8 +38,7 @@ function TextureAtlasReader:readTuple()
     list.map(t, function (v)
         return string.trim(v)
     end)
-    print("readTuple")
-    table.print(t)
+    log("readTuple", table.tostring(t))
     return t
 end
 

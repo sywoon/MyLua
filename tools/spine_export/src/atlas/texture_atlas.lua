@@ -4,7 +4,9 @@ local TextureAtlasPage = require "atlas.texture_atlas_page"
 local TextureAtlasRegion = require "atlas.texture_atlas_region"
 local TextureAtlas = class("TextureAtlas")
 
-
+local function log(...)
+    -- print("[TextureAtlas]", ...)
+end
 
 
 function TextureAtlas:ctor()
@@ -25,7 +27,7 @@ function TextureAtlas:load(path)
             break
         end
         line = string.trim(line)  --spineboy.png
-        print("line", #line, line)
+        log("line", #line, line)
         if #line == 0 then
             page = nil
         elseif not page then
@@ -38,11 +40,11 @@ function TextureAtlas:load(path)
                 tuple = reader:readTuple()  --format: RGBA8888
             end
             tuple = reader:readTuple()  --filter: Linear,Linear
-            page.minFilter = tuple
-            page.magFilter = tuple
+            page.minFilter = tuple[1]
+            page.magFilter = tuple[2]
 
             local direction= reader:readValue()  --repeat: none
-            page.uWrap = TextureWrap.ClampToEdge  --spine没做支持？
+            page.uWrap = TextureWrap.ClampToEdge  --spine默认值
             page.vWrap = TextureWrap.ClampToEdge
             if direction == "x" then
                 page.uWrap = TextureWrap.Repeat
@@ -67,9 +69,9 @@ function TextureAtlas:load(path)
             if string.lower(rotateValue) == "true" then
                 region.degrees = 90
             elseif string.lower(rotateValue) == "false" then
-                region.degree = 0
+                region.degrees = 0
             else
-                region.degree = tonumber(rotateValue)
+                region.degrees = tonumber(rotateValue)
             end
             region.rotate = region.degrees == 90
 
@@ -129,6 +131,27 @@ function TextureAtlas:dispose()
         if page.texture then
             page.texture.dispose()
         end
+    end
+end
+
+function TextureAtlas:dump()
+    print("--TextureAtlas desc--")
+    print(" page count:", #self.pages)
+    for i = 1, #self.pages do
+        local page = self.pages[i]
+        print("  page:" .. i, page.name)
+        print(_F("   size:%d,%d filter:%s,%s wrap:%s,%s", page.width, page.height, 
+                page.minFilter, page.magFilter, TextureWrapName[page.uWrap], TextureWrapName[page.vWrap]))
+    end
+
+    print(" region count:", #self.regions)
+    for i = 1, #self.regions do
+        local region = self.regions[i]
+        print("  region:" .. i, region.name)
+        print(_F("   degree:%d xy:%d,%d size:%d,%d offxy:%d, %d origin:%d,%d", 
+            region.degrees, region.x, region.y,
+            region.width, region.height, 
+            region.offsetX, region.offsetY, region.originalWidth, region.originalHeight))
     end
 end
 

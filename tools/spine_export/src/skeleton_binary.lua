@@ -8,6 +8,7 @@ local TCData = require "data.transform_constraint_data"
 local PCData = require "data.path_constraint_data"
 local Skin = require "skin"
 local Vertices = require "vertices"
+local Animation = require "animation.animation"
 
 
 local TransformMode=  BoneData.TransformMode
@@ -62,6 +63,7 @@ local SB = class("SkeletonBinary")
 function SB:ctor(attachmentLoader)
     self.scale = 1
     self.attachmentLoader = attachmentLoader
+    self.linkedMeshes = {}
 end
 
 function SB:readSkeletonData(skelFile)
@@ -246,7 +248,46 @@ function SB:readSkeletonData(skelFile)
         table.insert(sd.skins, defaultSkin)
     end
 
-    sd:dump()
+    --linked meshes
+    for i = 1, #self.linkedMeshes do
+        local linkedMesh = self.linkedMeshes[i]
+        local skin = linkedMesh.skin and sd:findSkin(linkedMesh.skin) or sd.defaultSkin
+        if not skin then
+            error("skin not found", linkedMesh.skin)
+        end
+        local parent = skin:getAttachment(linkedMesh.slotIndex, linkedMesh.parent)
+        if not parent then
+            error("parent mesh not found", linkedMesh.parent)
+        end
+        linkedMesh.mesh.deformAttachment = linkedMesh.inheritDeform and parent or linkedMesh.mesh
+        linkedMesh.mesh:setParentMesh(parent)
+        linkedMesh.mesh:updateUVs()
+    end
+    self.linkedMeshes = {}
+
+    --events
+    n = input:readInt(true)
+    for i = 1, n, 1 do
+        local data = EventData.new(input:readStringRef())
+        data.intValue = input:readInt(false)
+        data.floatValue = input:readFloat()
+        data.stringValue = input:readString()
+        data.audioPath = input:readString()
+        if data.audioPath then
+            data.volume = input:readFloat()
+            data.balance = input:readFloat()
+        end
+        table.insert(sd.event, data)
+    end
+
+    --animations
+    n = input:readInt(true)
+    for i = 1, n, 1 do
+        local animation = self:readAnimation(input, input:readString(), sd)
+        table.insert(sd.animations, animation)
+    end
+
+    -- sd:dump()
     print("readSkeletonData end")
 end
 
@@ -543,6 +584,16 @@ function SB:readShortArray(input)
         array[i] = input:readShort()
     end
     return array
+end
+
+function SB:readAnimation(input, name, sd)
+    local timelines = {}  --Array<Timeline>
+    local scale = self.scale
+    local duration = 0
+    local tempColor1 = Color.new()
+    local tempColor2 = Color.new()
+
+    return Animation.new(name, timelines, duration)
 end
 
 

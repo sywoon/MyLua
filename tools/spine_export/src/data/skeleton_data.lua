@@ -71,6 +71,14 @@ function SD:dump()
 
     print(" skin count:", #self.skins)
     self.defaultSkin:dump(pre)
+
+    print(" events count:", #self.events)
+    for i = 1, #self.events do
+        local event = self.events[i]
+        print("  event:" .. i)
+        event:dump(pre)
+    end
+    
 end
 
 return SD

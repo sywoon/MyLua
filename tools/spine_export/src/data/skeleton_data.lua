@@ -18,7 +18,7 @@ function SD:ctor()
     self.bones = {}
     self.slots = {}
     self.skins = {}
-    self.defualtSkin = nil  --Skin
+    self.defaultSkin = nil  --Skin
     self.events = {}
     self.animations = {}
 
@@ -68,6 +68,9 @@ function SD:dump()
         print("  pathConstraints:" .. i)
         path:dump(pre)
     end
+
+    print(" skin count:", #self.skins)
+    self.defaultSkin:dump(pre)
 end
 
 return SD

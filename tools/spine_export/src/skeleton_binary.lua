@@ -92,7 +92,7 @@ function SB:readSkeletonData(skelFile)
     for i = 1, n, 1 do
         table.insert(input.strings, input:readString())
     end
-    table.print("strings", input.strings)
+    -- print("strings", table.tostring(input.strings))
 
     --bones
     local scale = self.scale
@@ -246,8 +246,7 @@ function SB:readSkeletonData(skelFile)
         table.insert(sd.skins, defaultSkin)
     end
 
-    -- sd:dump()
-
+    sd:dump()
     print("readSkeletonData end")
 end
 
@@ -287,7 +286,7 @@ function SB:readSkin(input, skeletonData, defaultSkin, nonessential)
     for i = 1, slotCount do
         local slotIndex = input:readInt(true)
         local count =  input:readInt(true)
-        print("slotCount sub count", i, slotCount, slotIndex, count)
+        -- print("slotCount sub count", i, slotCount, slotIndex, count)
         for ii = 1, count do
             local name = input:readStringRef()
             local attachment = self:readAttachment(input, skeletonData, skin, slotIndex, name, nonessential)

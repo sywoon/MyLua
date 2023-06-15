@@ -3,6 +3,39 @@
 local Animation = class("Animation")
 
 
+function Animation.BinarySearch(values, target, step)
+    local toInt = function(v)
+        return math.round(v)    
+    end
+
+    local low = 0
+    local high = toInt(#values/ step) - 2
+    if high <= 0 then
+        return step
+    end
+
+    local current = high / 2
+    while true do
+        if values[(current+1) * step] <= target then
+            low = current + 1
+        else 
+            high = current
+        end
+        if low == high then
+            return (low + 1) * step
+        end
+        current = toInt((low + high) / 2)
+    end
+end
+
+function Animation.LinearSearch(values, target, step)
+    for i = 1, #values - step, step do
+        if values[1] > target then
+            return i
+        end
+    end
+end
+
 function Animation:ctor(name, timelines, duration)
     self.name = name
     self.timelines = timelines
@@ -29,38 +62,6 @@ function Animation:apply(skeleton, lastTime, time, loop, events, alpha, blend, d
     end
 end
 
-function Animation:binarySearch(values, target, step)
-    local toInt = function(v)
-        return math.round(v)    
-    end
-
-    local low = 0
-    local high = toInt(#values/ step) - 2
-    if high <= 0 then
-        return step
-    end
-
-    local current = high / 2
-    while true do
-        if values[(current+1) * step] <= target then
-            low = current + 1
-        else 
-            high = current
-        end
-        if low == high then
-            return (low + 1) * step
-        end
-        current = toInt((low + high) / 2)
-    end
-end
-
-function Animation:linearSearch(values, target, step)
-    for i = 1, #values - step, step do
-        if values[1] > target then
-            return i
-        end
-    end
-end
 
 
 return Animation

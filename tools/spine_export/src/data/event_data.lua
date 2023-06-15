@@ -14,9 +14,9 @@ end
 
 function EventData:dump(pre)
     pre = pre or ""
-    print(pre .. _F([[ EventData name:%s intValue:%d floatValue:%f stringValue:%s audioPath:%s volume:%d balance:%d]],
+    print(pre .. _F([[ EventData name:%s intValue:%d floatValue:%f stringValue:%s audioPath:%s volume:%f balance:%f]],
         self.name, self.intValue, self.floatValue, self.stringValue,
-        self.audioPath, self.volumn, self.balance
+        self.audioPath, self.volume, self.balance
     ))
 end
 

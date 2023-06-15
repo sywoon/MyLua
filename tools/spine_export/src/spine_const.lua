@@ -44,4 +44,61 @@ RegionType = {
     TextureAtlas,
 }
 
+SlotType = {
+    ATTACHMENT = 0,
+    COLOR = 1,
+    TWO_COLOR = 2
+}
+
+BoneType = {
+    BONE_ROTATE = 0,
+    BONE_TRANSLATE = 1,
+    BONE_SCALE = 2,
+    BONE_SHEAR = 3,
+}
+
+PathType = {
+    PATH_POSITION = 0,
+    PATH_SPACING = 1,
+    PATH_MIX = 2,
+}
+
+CurveType = {
+    CURVE_LINEAR = 0,
+    CURVE_STEPPED = 1,
+    CURVE_BEZIER = 2,
+}
+
+
+MixBlend = {
+    setup = 0,
+    first = 1,
+    replace = 2,
+    add = 3,
+}
+		
+MixDirection = {
+    mixIn = 0,
+    mixOut = 0,
+}
+
+TimelineType = {
+    rotate = 0, 
+    translate = 1, 
+    scale = 2, 
+    shear = 3,
+    attachment = 4, 
+    color = 5, 
+    deform = 6,
+    event = 7, 
+    drawOrder = 8,
+    ikConstraint = 9, 
+    transformConstraint = 10,
+    pathConstraintPosition = 11, 
+    pathConstraintSpacing = 12, 
+    pathConstraintMix = 13,
+    twoColor = 14,
+}
+
+
 

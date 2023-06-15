@@ -141,14 +141,14 @@ function Skin:dump(pre)
         self.name
     ))
 
-    print(pre .. " bones", #self.bones)
-    print(pre .. " constraints", #self.constraints)
+    print(pre .. "  bones", #self.bones)
+    print(pre .. "  constraints", #self.constraints)
 
-    print(pre .. " attachments", #self.attachments)
+    print(pre .. "  attachments", #self.attachments)
     -- attach[slotIdx][name] = attachment
     for slotIdx, map in pairs(self.attachments) do
         for name, attach in pairs(map) do
-            print(pre .. "  slotIdx:" .. slotIdx, name)
+            print(pre .. "   slotIdx:" .. slotIdx, name)
             attach:dump()
         end
     end

@@ -8,8 +8,16 @@ local TCData = require "data.transform_constraint_data"
 local PCData = require "data.path_constraint_data"
 local Skin = require "skin"
 local Vertices = require "vertices"
+local EventData = require "data.event_data"
 local Animation = require "animation.animation"
-
+local AttachmentTimeline = require "animation.attachment_timeline"
+local RotateTimeline = require "animation.rotate_timeline"
+local TranslateTimeline = require "animation.translate_timeline"
+local ScaleTimeline = require "animation.scale_timeline"
+local ShearTimeline = require "animation.shear_timeline"
+local IKConstraintTimeline = require "animation.ik_constraint_timeline"
+local TransformTimeline = require "animation.transform_timeline"
+local DeformTimeline = require "animation.deform_timeline"
 
 local TransformMode=  BoneData.TransformMode
 local TransformModeValues = {
@@ -246,9 +254,19 @@ function SB:readSkeletonData(skelFile)
     if defaultSkin ~= nil then
         sd.defaultSkin = defaultSkin
         table.insert(sd.skins, defaultSkin)
+        defaultSkin:dump()
+    end
+
+    do
+        local n = #sd.skins + input:readInt(true)
+        for i = #sd.skins+1, n, 1 do
+            local skin = self:readSkin(input, sd, false, nonessential)
+            table.insert(sd.skins, skin)
+        end
     end
 
     --linked meshes
+    print("linked meshes", input.index)
     for i = 1, #self.linkedMeshes do
         local linkedMesh = self.linkedMeshes[i]
         local skin = linkedMesh.skin and sd:findSkin(linkedMesh.skin) or sd.defaultSkin
@@ -267,6 +285,7 @@ function SB:readSkeletonData(skelFile)
 
     --events
     n = input:readInt(true)
+    print("events", n, input.index)
     for i = 1, n, 1 do
         local data = EventData.new(input:readStringRef())
         data.intValue = input:readInt(false)
@@ -277,11 +296,13 @@ function SB:readSkeletonData(skelFile)
             data.volume = input:readFloat()
             data.balance = input:readFloat()
         end
-        table.insert(sd.event, data)
+        table.insert(sd.events, data)
+        -- data:dump()
     end
 
     --animations
     n = input:readInt(true)
+    print("animations", n)
     for i = 1, n, 1 do
         local animation = self:readAnimation(input, input:readString(), sd)
         table.insert(sd.animations, animation)
@@ -593,7 +614,311 @@ function SB:readAnimation(input, name, sd)
     local tempColor1 = Color.new()
     local tempColor2 = Color.new()
 
+    --slot timelines
+    for i = 1, input:readInt(true), 1 do
+        local slotIdx = input:readInt(true)
+        for ii = 1, input:readInt(true), 1 do
+            local timelineType = input:readByte()
+            local frameCount = input:readInt(true)
+            print("--ss", slotIdx, timelineType, frameCount)
+            if timelineType == SlotType.ATTACHMENT then
+                local timeline = AttachmentTimeline.new(frameCount)
+                timeline.slotIndex = slotIdx
+                print("AttachmentTimeline", frameCount, slotIdx)
+                for frameIdx = 1, frameCount, 1 do
+                    timeline:setFrame(frameIdx, input:readFloat(), input:readStringRef())
+                end
+                table.insert(timelines, timeline)
+                duration = math.max(duration, timeline.frames[frameCount])
+            elseif timelineType == SlotType.COLOR then
+                local timeline = colorTimeline.new(frameCount)
+                timeline.slotIndex = slotIdx
+                for frameIdx = 1, frameCount, 1 do
+                    local time = input:readFloat()
+                    Color.rgba8888ToColor(tempColor1, input:readInt32())
+                    timeline:setFrame(frameIdx+1, time, tempColor1.r, tempColor1.g, tempColor1.b, tempColor1.a)
+                    if frameIdx < frameCount then
+                        self:readCurve(input, frameIdx, timeline)
+                    end
+                end
+                table.insert(timelines, timeline)
+                duration = math.max(duration, timeline.frames[frameCount * ColorTimeline.ENTRIES])
+            elseif timelineType == SlotType.TWO_COLOR then
+                local timeline = TwoColorTimeline.new(frameCount)
+                timeline.slotIndex = slotIdx
+                for frameIdx = 1, frameCount, 1 do
+                    Color.rgba8888ToColor(tempColor1, input:readInt32())
+                    Color.rgba8888ToColor(tempColor2, input:readInt32())
+                    timeline:setFrame(frameIndex, time, tempColor1.r, tempColor1.g, tempColor1.b, tempColor1.a, 
+                                        tempColor2.r, tempColor2.g, tempColor2.b)
+                    if frameIdx < frameCount then
+                        self:readCurve(input, frameIdx, timeline)
+                    end
+                end
+                table.insert(timelines, timeline)
+                duration = math.max(duration, timeline.frames[frameCount * TwoColorTimeline.ENTRIES])
+            end
+        end
+    end
+
+    --bone timelines
+    for i = 1, input:readInt(true), 1 do
+        local boneIdx = input:readInt(true)
+        for ii = 1, input:readInt(true), 1 do
+            local timelineType = input:readByte()
+            local frameCount = input:readInt(true)
+            if timelineType == BoneType.BONE_ROTATE then
+                local timeline = RotateTimeline.new(frameCount)
+                timeline.boneIndex = boneIdx
+                for frameIdx = 1, frameCount, 1 do
+                    timeline:setFrame(frameIdx, input:readFloat(), input:readFloat())
+                    if frameIdx < frameCount then
+                        self:readCurve(input, frameIdx, timeline)
+                    end
+                end 
+                table.insert(timelines, timeline)
+                duration = math.max(duration, timeline.frames[frameCount * RotateTimeline.ENTRIES])
+            elseif timelineType == BoneType.BONE_TRANSLATE
+                or timelineType == BoneType.BONE_SCALE
+                or timelineType == BoneType.BONE_SHEAR then
+                local timeline
+                local timelineScale = 1
+                if timelineType == BoneType.BONE_TRANSLATE then
+                    timeline = TranslateTimeline.new(frameCount)
+                    timelineScale = self.scale
+                elseif timelineType == BoneType.BONE_SCALE then
+                    timeline = ScaleTimeline.new(frameCount)
+                elseif timelineType == BoneType.BONE_SHEAR then
+                    timeline = ShearTimeline.new(frameCount)
+                end
+
+                timeline.boneIndex = boneIdx
+                for frameIdx = 1, frameCount, 1 do
+                    timeline:setFrame(frameIdx, input:readFloat(), input:readFloat()*timelineScale,
+                                    input:readFloat()*timelineScale)
+                    if frameIdx < frameCount then
+                        self:readCurve(input, frameIdx, timeline)
+                    end
+                end 
+                table.insert(timelines, timeline)
+                duration = math.max(duration, timeline.frames[frameCount * TranslateTimeline.ENTRIES])
+            end
+        end
+    end
+
+    --ik constraint timelines
+    for i = 1, input:readInt(true), 1 do
+        local index = input:readInt(true)
+        local frameCount = input:readInt(true)
+        local timeline = IKConstraintTimeline.new(frameCount)
+        timeline.ikConstraintIndex = index
+        for frameIdx = 1, frameCount, 1 do
+            timeline:setFrame(frameIdx, input:readFloat(), input:readFloat(),input:readFloat()* scale, 
+                        input:readByte(), input:readBoolean(),input:readBoolean())
+            if frameIdx < frameCount then
+                self:readCurve(input, frameIdx, timeline)
+            end
+        end
+
+        table.insert(timelines, timeline)
+        duration = math.max(duration, timeline.frames[frameCount * IKConstraintTimeline.ENTRIES])
+    end
+
+    --Transform constraint timelines
+    for i = 1, input:readInt(true), 1 do
+        local index = input:readInt(true)
+        local frameCount = input:readInt(true)
+        local timeline = TransformTimeline.new(frameCount)
+        timeline.transformConstraintIndex = index
+        for frameIdx = 1, frameCount, 1 do
+            timeline:setFrame(frameIdx, input:readFloat(), input:readFloat(), input:readFloat(), 
+                                input:readFloat(), input:readFloat())
+            if frameIdx < frameCount then
+                self:readCurve(input, frameIdx, timeline)
+            end
+        end
+        table.insert(timelines, timeline)
+        duration = math.max(duration, timeline.frames[frameCount * TransformTimeline.ENTRIES])
+    end
+
+    -- Path constraint timelines.
+    for i = 1, input:readInt(true), 1 do
+        local index = input:readInt(true)
+        local data = sd.pathConstraints[index+1]
+        for ii = 1, input:readInt(true), 1 do
+            local timelineType = input:readByte()
+            local frameCount = input:readInt(true)
+            if timelineType == PathType.PATH_POSITION
+                or timelineType == PathType.PATH_SPACING then
+                local timeline
+                local timelineScale = 1
+                if timelineType == PathType.PATH_POSITION then
+                    timeline = PathConstraintSpacingTimeline.new(frameCount)
+                    if data.positionMode == PositionMode.Fixed then
+                        timelineScale = scale
+                    end 
+                elseif timelineType == BoneType.PATH_SPACING then
+                    timeline = PathConstraintSpacingTimeline.new(frameCount)
+                    if data.spacingMode == SpacingMode.Length 
+                        or data.spacingMode == SpacingMode.Fixed then
+                        timelineScale = scale
+                    end
+                end
+                timeline.pathConstraintIndex = index
+                for frameIdx = 1, frameCount, 1 do
+                    timeline:setFrame(frameIdx, input:readFloat(), input:readFloat() * timelineScale)
+                    if frameIdx < frameCount then
+                        self:readCurve(input, frameIdx, timeline)
+                    end
+                end
+                table.insert(timelines, timeline)
+                duration = math.max(duration, timeline.frames[frameCount * PathConstraintPositionTimeline.ENTRIES])
+            elseif timelineType == PathType.PATH_MIX then
+                local timeline = PathConstraintMixTimeline.new(frameCount)
+                timeline.pathConstraintIndex = index
+                for frameIdx = 1, frameCount, 1 do
+                    timeline:setFrame(frameIdx, input:readFloat(), input:readFloat(), input:readFloat())
+                    if frameIdx < frameCount then
+                        self:readCurve(input, frameIdx, timeline)
+                    end
+                end
+                table.insert(timelines, timeline)
+                duration = math.max(duration, timeline.frames[frameCount * PathConstraintMixTimeline.ENTRIES])
+            end
+        end
+    end
+
+    --deform timelines
+    for i = 1, input:readInt(true), 1 do
+        local skin = sd.skins[input:readInt(true)+1]
+        for ii = 1, input:readInt(true), 1 do
+            local slotIdx = input:readInt(true)
+            for iii = 1, input:readInt(true), 1 do
+                local attachment = skin:getAttachment(slotIdx+1, input:readStringRef())
+                local weighted = attachment.bones ~= nil
+                local vertices = attachment.vertices
+                local deformLength = weighted and #vertices / 3 * 2 or #vertices
+
+                local frameCount = input:readInt(true)
+                local timeline = DeformTimeline.new(frameCount)
+                timeline.slotIndex = slotIdx
+                timeline.attachment = attachment
+
+                for frameIdx = 1, frameCount, 1 do
+                    local time = input:readFloat()
+                    local deform;
+                    local ends = input:readInt(true)
+                    if ends == 0 then
+                        deform = weighted and {} or vertices  --deformLength
+                    else
+                        deform = {}  --deformLength
+                        local start = input:readInt(true)
+                        ends = ends + start
+                        if scale == 1 then
+                            for v = start+1, v <= ends, 1 do
+                                deform[v] = input:readFloat()
+                            end
+                        else
+                            for v = start+1, v <= ends, 1 do
+                                deform[v] = input:readFloat() * scale
+                            end
+                        end
+                        if not weighted then
+                            for v = 1, deform.length, 1 do
+                                deform[v] = deform[v] + vertices[v]
+                            end
+                        end
+                    end
+
+                    timeline:setFrame(frameIdx, time, deform)
+                    if frameIdx < frameCount then
+                        self:readCurve(input, frameIdx, timeline)
+                    end
+                end
+                table.insert(timelines, timeline)
+                duration = math.max(duration, timeline.frames[frameCount])
+            end
+        end
+    end
+
+    -- Draw order timeline
+    local drawOrderCount = input:readInt(true)
+    if drawOrderCount > 0 then
+        local timeline = DrawOrderTimeline.new(drawOrderCount)
+        local slotCount = #sd.slots
+        for i = 1, drawOrderCount, 1 do
+            local time = input:readFloat();
+            local offsetCount = input:readInt(true);
+            local drawOrder = {}  --slotCount
+            for ii = slotCount, 1, -1 do
+                drawOrder[ii] = -1
+            end
+
+            local unchanged = {}  --slotCount - offsetCount
+            local originalIndex, unchangedIndex = 1, 1
+            for ii = 1, offsetCount, 1 do
+                local slotIndex = input:readInt(true) + 1
+                while originalIndex ~= slotIndex do
+                    unchanged[unchangedIndex] = originalIndex
+                    unchangedIndex = unchangedIndex + 1
+                    originalIndex = originalIndex + 1
+                end
+                drawOrder[originalIndex + input:readInt(true)] = originalIndex
+                originalIndex = originalIndex + 1
+            end
+            while originalIndex <= slotCount do
+                unchanged[unchangedIndex] = originalIndex
+                unchangedIndex = unchangedIndex + 1
+                originalIndex = originalIndex + 1
+            end
+
+            for ii = slotCount, 1, -1 do
+                if drawOrder[ii] == -1 then
+                    drawOrder[ii] = unchanged[unchangedIndex]
+                    unchangedIndex = unchangedIndex - 1
+                end 
+            end
+            timeline.setFrame(i, time, drawOrder);
+        end
+        table.insert(timelines, timeline)
+        duration = math.max(duration, timeline.frames[drawOrderCount])
+    end
+
+    --event timeline
+    local eventCount = input:readInt(true);
+    if eventCount > 0 then
+        local timeline = EventTimeline.new(eventCount)
+        for i = 1, eventCount, 1 do
+            local time = input:readFloat();
+            local eventData = sd.events[input:readInt(true)+1]
+            local event = Event.new(time, eventData)
+            event.intValue = input:readInt(false)
+            event.floatValue = input:readFloat()
+            event.stringValue = input:readBoolean() and input:readString() or eventData.stringValue
+            if event.data.audioPath ~= "" then
+                event.volume = input:readFloat()
+                event.balance = input:readFloat()
+            end
+            timeline:setFrame(i+1, event)
+        end
+        table.insert(timelines, timeline)
+        duration = math.max(duration, timeline.frames[eventCount])
+    end
+
     return Animation.new(name, timelines, duration)
+end
+
+function SB:readCurve(input, frameIdx, timeline)
+    local type = input:readByte()
+    if type == CurveType.CURVE_STEPPED then
+        timeline:setStepped(frameIdx)
+    elseif type == CurveType.CURVE_BEZIER then
+        self:setCurve(timeline, frameIdx, input:readFloat(), input:readFloat(), input:readFloat(), input:readFloat())
+    end
+end
+
+function SB:setCurve(timeline, frameIdx, cx1, cy1, cx2, cy2)
+    timeline.setCurve(frameIdx, cx1, cy1, cx2, cy2);
 end
 
 

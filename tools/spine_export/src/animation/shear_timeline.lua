@@ -3,8 +3,9 @@ local TranslateTimeline = require "animation.translate_timeline"
 local ShearTimeline = class("ShearTimeline", TranslateTimeline)
 
 
-function ShearTimeline.ctor(frameCount)
+function ShearTimeline:ctor(frameCount)
     ShearTimeline.super.ctor(self, frameCount)
+    self.type = TimelineType.shear
 end
 
 function ShearTimeline:getPropertyId()

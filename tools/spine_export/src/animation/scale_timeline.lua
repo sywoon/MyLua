@@ -2,12 +2,13 @@
 
 local Animation = require "animation.animation"
 local Timeline = require "animation.timeline"
-local CurveTimeline = require "animation.curve_timeline"
-local ScaleTimeline = class("ScaleTimeline", CurveTimeline)
+local TranslateTimeline = require "animation.translate_timeline"
+local ScaleTimeline = class("ScaleTimeline", TranslateTimeline)
 
 
 function ScaleTimeline:ctor(frameCount)
     ScaleTimeline.super.ctor(self)
+    self.type = TimelineType.scale
 end
 
 function ScaleTimeline:getPropertyId()

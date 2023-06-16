@@ -18,6 +18,7 @@ TransformTimeline.SHEAR = 4
 
 function TransformTimeline:ctor(frameCount)
     TransformTimeline.super.ctor(self)
+    self.type = TimelineType.transformConstraint
     self.transformConstraintIndex = 1
     self.frames = {}  --size:frameCount * TransformTimeline.ENTRIES
 end

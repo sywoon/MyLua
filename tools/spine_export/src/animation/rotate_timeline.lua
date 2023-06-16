@@ -13,6 +13,7 @@ RotateTimeline.ENTRIES = ENTRIES
 
 function RotateTimeline:ctor(frameCount)
     RotateTimeline.super.ctor(self)
+    self.type = TimelineType.rotate
     self.boneIndex = 1
     self.frames = {}  --size:frameCount << 1
 end

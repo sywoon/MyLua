@@ -18,7 +18,7 @@ local A = 4
 
 function ColorTimeline:ctor(frameCount)
     ColorTimeline.super.ctor(self)
-
+    self.type = TimelineType.color
     self.slotIndex = 1  --base1
     self.frames = {}  --size:frameCount * ColorTimeline.ENTRIES
 end

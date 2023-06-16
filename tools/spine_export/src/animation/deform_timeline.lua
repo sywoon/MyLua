@@ -15,6 +15,7 @@ local zeros = nil  --ArrayLike<number>
 
 function DeformTimeline:ctor(frameCount)
     DeformTimeline.super.ctor(self, frameCount)
+    self.type = TimelineType.deform
     self.slotIndex = 1
     self.attachment = nil  
     self.frames = {}  --size:frameCount

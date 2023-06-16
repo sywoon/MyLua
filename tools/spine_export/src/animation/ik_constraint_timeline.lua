@@ -23,6 +23,7 @@ IkConstraintTimeline.STRETCH = 5
 
 function IkConstraintTimeline:ctor(frameCount)
     IkConstraintTimeline.super.ctor(self)
+    self.type = TimelineType.ikConstraint
     self.ikConstraintIndex = 1
     self.frames = {}  --frameCount * IkConstraintTimeline.ENTRIES
 end

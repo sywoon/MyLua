@@ -4,10 +4,10 @@ local CurveTimeline = class("CurveTimeline", Timeline)
 
 
 
-local LINEAR = 0 
-local STEPPED = 1 
-local BEZIER = 2
-local BEZIER_SIZE = 10 * 2 - 1
+CurveTimeline.LINEAR = 0 
+CurveTimeline.STEPPED = 1 
+CurveTimeline.BEZIER = 2
+CurveTimeline.BEZIER_SIZE = 10 * 2 - 1
 
 
 function CurveTimeline:ctor(frameCount)
@@ -16,15 +16,15 @@ function CurveTimeline:ctor(frameCount)
 end
 
 function CurveTimeline:getFrameCount () 
-    return #self.curves / BEZIER_SIZE + 1
+    return #self.curves / CurveTimeline.BEZIER_SIZE + 1
 end
 
 function CurveTimeline:setLinear (frameIndex) 
-    self.curves[frameIndex * BEZIER_SIZE] = LINEAR
+    self.curves[frameIndex * CurveTimeline.BEZIER_SIZE] = LINEAR
 end
 
 function CurveTimeline:setStepped (frameIndex) 
-    self.curves[frameIndex * BEZIER_SIZE] = STEPPED
+    self.curves[frameIndex * CurveTimeline.BEZIER_SIZE] = STEPPED
 end
 
 function CurveTimeline:getCurveType (frameIndex)
@@ -42,73 +42,65 @@ function CurveTimeline:getCurveType (frameIndex)
     return BEZIER
 end
 
-function CurveTimeline:setCurve (frameIndex, cx1, cy1, cx2, cy2)
+function CurveTimeline:setCurve(frameIndex, cx1, cy1, cx2, cy2)
     local tmpx = (-cx1 * 2 + cx2) * 0.03
     local tmpy = (-cy1 * 2 + cy2) * 0.03
-    local dddfx = ((cx1 - cx2) * 3 + 1) * 0.006 
+    local dddfx = ((cx1 - cx2) * 3 + 1) * 0.006
     local dddfy = ((cy1 - cy2) * 3 + 1) * 0.006
     local ddfx = tmpx * 2 + dddfx
     local ddfy = tmpy * 2 + dddfy
-    local dfx = cx1 * 0.3 + tmpx + dddfx * 0.16666667 
+    local dfx = cx1 * 0.3 + tmpx + dddfx * 0.16666667
     local dfy = cy1 * 0.3 + tmpy + dddfy * 0.16666667
 
     local i = frameIndex * CurveTimeline.BEZIER_SIZE
-    local curves = this.curves;
-    curves[i] = CurveTimeline.BEZIER
+    local curves = self.curves
+    curves[i + 1] = CurveTimeline.BEZIER
     i = i + 1
 
-    local x, y = dfx, dfy
-    local n = i + CurveTimeline.BEZIER_SIZE - 1
-    while i < n do
-        curves[i] = x
-        curves[i + 1] = y
+    local x = dfx
+    local y = dfy
+    for n = i + CurveTimeline.BEZIER_SIZE - 1, i + 1, 2 do
+        curves[n] = x
+        curves[n + 1] = y
         dfx = dfx + ddfx
         dfy = dfy + ddfy
         ddfx = ddfx + dddfx
         ddfy = ddfy + dddfy
         x = x + dfx
         y = y + dfy
-
-        i = i + 2
     end
 end
 
 function CurveTimeline:getCurvePercent(frameIndex, percent)
-    percent = MathUtils.clamp(percent, 0, 1)
+    percent = math.min(math.max(percent, 0), 1)
     local curves = self.curves
     local i = frameIndex * CurveTimeline.BEZIER_SIZE
-    local type = curves[i]
+    local type = curves[i + 1]
     if type == CurveTimeline.LINEAR then
         return percent
     end
-
     if type == CurveTimeline.STEPPED then
-        return 0        
+        return 0
     end
     i = i + 1
-
     local x = 0
-    local start = i
-    local n = i + CurveTimeline.BEZIER_SIZE - 1
-    while i < n do
-        x = curves[i];
+    for n = i + CurveTimeline.BEZIER_SIZE - 1, i + 1, 2 do
+        x = curves[n]
         if x >= percent then
             local prevX, prevY
-            if i == start then
+            if n == i + 1 then
                 prevX = 0
                 prevY = 0
             else
-                prevX = curves[i - 2];
-                prevY = curves[i - 1];
+                prevX = curves[n - 2]
+                prevY = curves[n - 1]
             end
-            return prevY + (curves[i + 1] - prevY) * (percent - prevX) / (x - prevX);
+            return prevY + (curves[n + 1] - prevY) * (percent - prevX) / (x - prevX)
         end
-        i = i + 2
     end
     local y = curves[i - 1]
-    return y + (1 - y) * (percent - x) / (1 - x); -- Last point is 1,1.
+    return y + (1 - y) * (percent - x) / (1 - x) -- Last point is 1,1.
 end
-
 
 
 return CurveTimeline

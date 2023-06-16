@@ -45,9 +45,9 @@ RegionType = {
 }
 
 SlotType = {
-    ATTACHMENT = 0,
-    COLOR = 1,
-    TWO_COLOR = 2
+    SLOT_ATTACHMENT = 0,
+    SLOT_COLOR = 1,
+    SLOT_TWO_COLOR = 2
 }
 
 BoneType = {

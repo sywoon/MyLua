@@ -4,9 +4,23 @@ local CurveTimeline = require "animation.curve_timeline"
 local TranslateTimeline = class("TranslateTimeline", CurveTimeline)
 
 
+
+TranslateTimeline.ENTRIES = 3
+
+TranslateTimeline.PREV_TIME = -3 
+TranslateTimeline.PREV_X = -2 
+TranslateTimeline.PREV_Y = -1
+
+TranslateTimeline.X = 1 
+TranslateTimeline.Y = 2
+
+
+
 function TranslateTimeline:ctor(frameCount)
-    TranslateTimeline.super.ctor(self)
-    
+    TranslateTimeline.super.ctor(self, frameCount)
+    self.type = TimelineType.translate
+    self.boneIndex = 1
+    self.frames = {}  --frameCount * TranslateTimeline.ENTRIES
 end
 
 
@@ -14,11 +28,12 @@ function TranslateTimeline:getPropertyId()
     return (TimelineType.translate << 24) + self.boneIndex
 end
 
+--frameIndex:base1
 function TranslateTimeline:setFrame(frameIndex, time, x, y)
     frameIndex = frameIndex * TranslateTimeline.ENTRIES
-    this.frames[frameIndex] = time
-    this.frames[frameIndex + TranslateTimeline.X] = x
-    this.frames[frameIndex + TranslateTimeline.Y] = y
+    self.frames[frameIndex] = time
+    self.frames[frameIndex + TranslateTimeline.X] = x
+    self.frames[frameIndex + TranslateTimeline.Y] = y
 end
 
 

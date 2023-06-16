@@ -5,7 +5,7 @@ local AttachmentTimeline = class("AttachmentTimeline", Timeline)
 
 function AttachmentTimeline:ctor()
     AttachmentTimeline.super.ctor(self)
-
+    self.type = TimelineType.attachment
     self.slotIndex = 1  --base1
     self.frames = {}
     self.attachmentNames = {}

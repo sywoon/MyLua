@@ -20,26 +20,26 @@ function CurveTimeline:getFrameCount ()
 end
 
 function CurveTimeline:setLinear (frameIndex) 
-    self.curves[frameIndex * CurveTimeline.BEZIER_SIZE] = LINEAR
+    self.curves[frameIndex * CurveTimeline.BEZIER_SIZE] = CurveTimeline.LINEAR
 end
 
 function CurveTimeline:setStepped (frameIndex) 
-    self.curves[frameIndex * CurveTimeline.BEZIER_SIZE] = STEPPED
+    self.curves[frameIndex * CurveTimeline.BEZIER_SIZE] = CurveTimeline.STEPPED
 end
 
 function CurveTimeline:getCurveType (frameIndex)
     local index = frameIndex * CurveTimeline.BEZIER_SIZE
     if index == self.curves.length then
-        return LINEAR
+        return CurveTimeline.LINEAR
     end
     local type = self.curves[index]
-    if type == LINEAR then
-        return LINEAR
+    if type == CurveTimeline.LINEAR then
+        return CurveTimeline.LINEAR
     end
-    if type == STEPPED then
-        return STEPPED        
+    if type == CurveTimeline.STEPPED then
+        return CurveTimeline.STEPPED        
     end
-    return BEZIER
+    return CurveTimeline.BEZIER
 end
 
 function CurveTimeline:setCurve(frameIndex, cx1, cy1, cx2, cy2)
@@ -100,6 +100,19 @@ function CurveTimeline:getCurvePercent(frameIndex, percent)
     end
     local y = curves[i - 1]
     return y + (1 - y) * (percent - x) / (1 - x) -- Last point is 1,1.
+end
+
+
+function CurveTimeline:dump(pre)
+    pre = pre or ""
+    print(pre .. _F([[ CurveTimeline type:%d slot:%d]],
+        self.type, self.slotIndex
+    ))
+
+    print(pre .. " curves", #self.curves)
+    for idx, value in pairs(self.curves) do
+        print(pre .. _F("  curve:%d value:%d", idx, value))
+    end
 end
 
 

@@ -96,5 +96,12 @@ function ScaleTimeline:apply(skeleton, lastTime, time, events, alpha, blend, dir
     end
 end
 
+function ScaleTimeline:dump(pre)
+    pre = pre or ""
+    print(pre .. _F([[ ScaleTimeline type:%d]],
+        self.type
+    ))
+end
+
 
 return ScaleTimeline

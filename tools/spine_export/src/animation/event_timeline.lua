@@ -56,4 +56,23 @@ function EventTimeline:apply(skeleton, lastTime, time, firedEvents, alpha, blend
     end
 end
 
+
+function EventTimeline:dump(pre)
+    pre = pre or ""
+    print(pre .. _F([[ EventTimeline type:%d slot:%d]],
+        self.type, self.slotIndex
+    ))
+
+    print(pre .. " frames", #self.frames)
+    for frameIdx, time in pairs(self.frames) do
+        print(pre .. "  frame time", frameIdx, time)
+    end
+
+    print(pre .. " events", #self.events)
+    for frameIdx, event in pairs(self.events) do
+        print(pre .. "  frame vertice", frameIdx, event)
+    end
+end
+
+
 return EventTimeline

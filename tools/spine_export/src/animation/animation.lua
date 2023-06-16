@@ -62,6 +62,9 @@ function Animation:apply(skeleton, lastTime, time, loop, events, alpha, blend, d
     end
 end
 
+function Animation:dump(pre)
+end
+
 
 
 return Animation

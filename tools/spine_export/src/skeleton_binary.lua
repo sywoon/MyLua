@@ -312,7 +312,7 @@ function SB:readSkeletonData(skelFile)
         table.insert(sd.animations, animation)
     end
 
-    -- sd:dump()
+    sd:dump()
     print("readSkeletonData end")
 end
 

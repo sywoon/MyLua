@@ -97,5 +97,25 @@ function TransformTimeline:apply(skeleton, lastTime, time, firedEvents, alpha, b
     end
 end
 
+function TransformTimeline:dump(pre)
+    pre = pre or ""
+    print(pre .. _F([[ TransformTimeline type:%d transformConstraintIndex:%d]],
+        self.type, self.transformConstraintIndex
+    ))
+
+    print(pre .. " frames", #self.frames)
+    local idx = 1
+    while idx <= #self.frames-TransformTimeline.ENTRIES do
+        print(pre .. _F("  frame:%d time:%f rotateMix:%f translateMix:%f scaleMix:%f shearMix:%f", 
+                idx, self.frames[idx],
+                self.frames[idx + TransformTimeline.ROTATE],
+                self.frames[idx + TransformTimeline.TRANSLATE],
+                self.frames[idx + TransformTimeline.SCALE],
+                self.frames[idx + TransformTimeline.SHEAR]
+        ))
+        idx = idx + TransformTimeline.ENTRIES
+    end
+end
+
 
 return TransformTimeline

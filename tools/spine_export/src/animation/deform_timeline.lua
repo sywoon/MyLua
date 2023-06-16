@@ -199,4 +199,27 @@ function DeformTimeline:apply(skeleton, lastTime, time, firedEvents, alpha, blen
 end
 
 
+function DeformTimeline:dump(pre)
+    pre = pre or ""
+    print(pre .. _F([[ DeformTimeline type:%d slot:%d]],
+        self.type, self.slotIndex
+    ))
+
+    print(pre .. " curves", #self.curves)
+    for idx, value in pairs(self.curves) do
+        print(pre .. _F("  curve:%d value:%d", idx, value))
+    end
+
+    print(pre .. " frames", #self.frames)
+    for frameIdx, time in pairs(self.frames) do
+        print(pre .. "  frame time", frameIdx, time)
+    end
+
+    print(pre .. " frameVertices", #self.frameVertices)
+    for frameIdx, vertices in pairs(self.frameVertices) do
+        print(pre .. "  frame vertice", frameIdx, vertices)
+    end
+end
+
+
 return DeformTimeline

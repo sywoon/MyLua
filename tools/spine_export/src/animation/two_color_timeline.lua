@@ -115,4 +115,31 @@ function TwoColorTimeline:apply(skeleton, lastTime, time, events, alpha, blend, 
     end
 end
 
+
+function TwoColorTimeline:dump(pre)
+    pre = pre or ""
+    print(pre .. _F([[ TwoColorTimeline type:%d frameCount:%d]],
+        self.type, self.frameCount
+    ))
+
+    print(pre .. " frames", #self.frames)
+    local idx = 1
+    while idx <= #self.frames-TwoColorTimeline.ENTRIES do
+        print(pre .. _F("  frame:%d time:%f r:%f g:%f b:%f a:%f r2:%f g2:%f b2:%f a2:%f", 
+                    idx, self.frames[idx],
+                    self.frames[idx + TwoColorTimeline.R],
+                    self.frames[idx + TwoColorTimeline.G],
+                    self.frames[idx + TwoColorTimeline.B],
+                    self.frames[idx + TwoColorTimeline.A],
+                    self.frames[idx + TwoColorTimeline.R2],
+                    self.frames[idx + TwoColorTimeline.G2],
+                    self.frames[idx + TwoColorTimeline.B2]
+        ))
+        idx = idx + TwoColorTimeline.ENTRIES
+    end
+end
+
+
+
+
 return TwoColorTimeline

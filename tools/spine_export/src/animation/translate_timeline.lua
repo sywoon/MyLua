@@ -83,4 +83,24 @@ function TranslateTimeline:apply(skeleton, lastTime, time, events, alpha, blend,
     end
 end
 
+function TranslateTimeline:dump(pre)
+    pre = pre or ""
+    print(pre .. _F([[ TranslateTimeline type:%d boneIndex:%d]],
+        self.type, self.boneIndex
+    ))
+
+    print(pre .. " frames", #self.frames)
+    local idx = 1
+    while idx <= #self.frames-TranslateTimeline.ENTRIES do
+        print(pre .. _F("  frame:%d time:%f x:%f y:%f", 
+                idx, self.frames[idx],
+                self.frames[idx + TranslateTimeline.X],
+                self.frames[idx + TranslateTimeline.Y]
+        ))
+        idx = idx + TranslateTimeline.ENTRIES
+    end
+end
+
+
+
 return TranslateTimeline

@@ -78,5 +78,22 @@ function RotateTimeline:apply(skeleton, lastTime, time, events, alpha, blend, di
 end
 
 
+function RotateTimeline:dump(pre)
+    pre = pre or ""
+    print(pre .. _F([[ RotateTimeline type:%d boneIndex:%d]],
+        self.type, self.boneIndex
+    ))
+
+    local idx = 1
+    while idx <= #self.frames-RotateTimeline.ENTRIES do
+        print(pre .. _F("  frame:%d time:%f degrees:%f", 
+                idx, self.frames[idx],
+                self.frames[frameIndex + ROTATION]
+        ))
+        idx = idx + RotateTimeline.ENTRIES
+    end
+end
+
+
 
 return RotateTimeline

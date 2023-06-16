@@ -63,5 +63,21 @@ function AttachmentTimeline:setAttachment(skeleton, slot, attachmentName)
                 and nil or skeleton:getAttachment(self.slotIndex, attachmentName))
 end
 
+function AttachmentTimeline:dump(pre)
+    pre = pre or ""
+    print(pre .. _F([[ AttachmentTimeline type:%d slot:%d]],
+        self.type, self.slotIndex
+    ))
+
+    print(pre .. " frames", #self.frames)
+    for frameIdx, time in pairs(self.frames) do
+        print(pre .. "  frame time", frameIdx, time)
+    end
+
+    print(pre .. " attachmentNames", #self.attachmentNames)
+    for frameIdx, attachmentName in pairs(self.attachmentNames) do
+        print(pre .. "  frame attachmentName", frameIdx, attachmentName)
+    end
+end
 
 return AttachmentTimeline

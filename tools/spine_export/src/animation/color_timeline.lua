@@ -90,6 +90,22 @@ function ColorTimeline:apply(skeleton, lastTime, time, events, alpha, blend, dir
     end
 end
 
+function ColorTimeline:dump(pre)
+    pre = pre or ""
+    print(pre .. _F([[ ColorTimeline type:%d slot:%d]],
+        self.type, self.slotIndex
+    ))
+
+    print(pre .. " frames", #self.frames)
+    local idx = 1
+    while idx <= #self.frames-ColorTimeline.ENTRIES do
+        print(pre .. _F("  frame:%d time:%f r:%f g:%f b:%f a:%f", 
+                    idx, self.frames[idx], self.frames[idx+R], self.frames[idx+G], 
+                    self.frames[idx+B], self.frames[idx+A]))
+        idx = idx + ColorTimeline.ENTRIES
+    end
+end
+
 
 
 return ColorTimeline

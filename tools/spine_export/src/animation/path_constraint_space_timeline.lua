@@ -1,19 +1,11 @@
-local CurveTimeline = require "animation.curve_timeline"
-local PathConstraintSpacingTimeline = class("PathConstraintSpacingTimeline", CurveTimeline)
+local PathConstraintPositionTimeline = require "animation.path_constraint_pos_timeline"
+local PathConstraintSpacingTimeline = class("PathConstraintSpacingTimeline", PathConstraintPositionTimeline)
 
 
 function PathConstraintSpacingTimeline:ctor(frameCount)
     PathConstraintSpacingTimeline.super.ctor(self, frameCount)
 end
 
-
-function PathConstraintSpacingTimeline.new(frameCount)
-    local self = setmetatable({}, PathConstraintSpacingTimeline)
-    self.type = TimelineType.pathConstraintSpacing
-    self.frames = {}
-    PathConstraintPositionTimeline.new(self, frameCount)
-    return self
-end
 
 function PathConstraintSpacingTimeline:getPropertyId()
     return TimelineType.pathConstraintSpacing << 24 + self.pathConstraintIndex
@@ -54,6 +46,13 @@ function PathConstraintSpacingTimeline:apply(skeleton, lastTime, time, firedEven
     else
         constraint.spacing = constraint.spacing + (spacing - constraint.spacing) * alpha
     end
+end
+
+function PathConstraintSpacingTimeline:dump(pre)
+    pre = pre or ""
+    print(pre .. _F([[ PathConstraintSpacingTimeline type:%d]],
+        self.type
+    ))
 end
 
 return PathConstraintSpacingTimeline

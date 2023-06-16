@@ -60,4 +60,22 @@ function PathConstraintPositionTimeline:apply(skeleton, lastTime, time, firedEve
     end
 end
 
+function PathConstraintPositionTimeline:dump(pre)
+    pre = pre or ""
+    print(pre .. _F([[ PathConstraintPositionTimeline type:%d]],
+        self.type
+    ))
+
+    print(pre .. " frames", #self.frames)
+    local idx = 1
+    while idx <= #self.frames-PathConstraintMixTimeline.ENTRIES do
+        print(pre .. _F("  frame:%d time:%f value:%f", 
+                idx, self.frames[idx + 1],
+                self.frames[idx + PathConstraintPositionTimeline.VALUE + 1]
+        ))
+        idx = idx + PathConstraintPositionTimeline.ENTRIES
+    end
+end
+
+
 return PathConstraintPositionTimeline

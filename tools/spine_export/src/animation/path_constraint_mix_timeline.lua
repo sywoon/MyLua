@@ -71,4 +71,24 @@ function PathConstraintMixTimeline:apply(skeleton, lastTime, time, firedEvents, 
     end
 end
 
+
+function PathConstraintMixTimeline:dump(pre)
+    pre = pre or ""
+    print(pre .. _F([[ PathConstraintMixTimeline type:%d]],
+        self.type
+    ))
+
+    print(pre .. " frames", #self.frames)
+    local idx = 1
+    while idx <= #self.frames-PathConstraintMixTimeline.ENTRIES do
+        print(pre .. _F("  frame:%d time:%f rotateMix:%f translateMix:%f", 
+                idx, self.frames[frameIndex + 1],
+                self.frames[frameIndex + PathConstraintMixTimeline.ROTATE + 1],
+                self.frames[frameIndex + PathConstraintMixTimeline.TRANSLATE + 1]
+        ))
+        idx = idx + PathConstraintMixTimeline.ENTRIES
+    end
+end
+
+
 return PathConstraintMixTimeline

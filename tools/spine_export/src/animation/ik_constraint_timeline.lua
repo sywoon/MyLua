@@ -120,6 +120,32 @@ function IkConstraintTimeline:apply(skeleton, lastTime, time, firedEvents, alpha
     end
 end
 
+function IkConstraintTimeline:dump(pre)
+    pre = pre or ""
+    print(pre .. _F([[ IkConstraintTimeline type:%d ik:%d]],
+        self.type, self.ikConstraintIndex
+    ))
+
+    print(pre .. " frames", #self.frames)
+    for frameIdx, time in pairs(self.frames) do
+        print(pre .. "  frame time", frameIdx, time)
+    end
+
+    print(pre .. " frames", #self.frames)
+    local idx = 1
+    while idx <= #self.frames-IkConstraintTimeline.ENTRIES do
+        print(pre .. _F("  frame:%d time:%f mix:%f softness:%f bendDirection:%d compress:%d stretch:%d", 
+                    idx, self.frames[idx],
+                    self.frames[idx + IkConstraintTimeline.MIX],
+                    self.frames[idx + IkConstraintTimeline.SOFTNESS],
+                    self.frames[idx + IkConstraintTimeline.BEND_DIRECTION],
+                    self.frames[idx + IkConstraintTimeline.COMPRESS],
+                    self.frames[idx + IkConstraintTimeline.STRETCH]
+        ))
+        idx = idx + IkConstraintTimeline.ENTRIES
+    end
+end
+
 
 
 return IkConstraintTimeline

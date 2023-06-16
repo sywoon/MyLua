@@ -11,5 +11,7 @@ end
 function Timeline:getPropertyId()
 end
 
+function Timeline:dump(pre)
+end
 
 return Timeline

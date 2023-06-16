@@ -78,6 +78,14 @@ function SD:dump()
         print("  event:" .. i)
         event:dump(pre)
     end
+
+    print(" animations count:", #self.animations)
+    for i = 1, #self.animations do
+        local animation = self.animations[i]
+        print("  animation:" .. i)
+        -- animation:dump(pre)
+    end
+    
     
 end
 

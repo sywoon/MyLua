@@ -66,4 +66,22 @@ function DrawOrderTimeline:apply(skeleton, lastTime, time, firedEvents, alpha, b
     end
 end
 
+
+function DrawOrderTimeline:dump(pre)
+    pre = pre or ""
+    print(pre .. _F([[ DrawOrderTimeline type:%d slot:%d]],
+        self.type, self.slotIndex
+    ))
+
+    print(pre .. " frames", #self.frames)
+    for frameIdx, time in pairs(self.frames) do
+        print(pre .. "  frame time", frameIdx, time)
+    end
+
+    print(pre .. " drawOrders", #self.drawOrders)
+    for frameIdx, drawOrder in pairs(self.drawOrders) do
+        print(pre .. "  frame vertice", frameIdx, drawOrder)
+    end
+end
+
 return DrawOrderTimeline

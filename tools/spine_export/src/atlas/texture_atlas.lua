@@ -86,10 +86,10 @@ function TextureAtlas:load(path)
             region.v = y / page.height
             if region.rotate then
                 region.u2 = (x + height) / page.width
-                region.v2 = (x + width) / page.height
+                region.v2 = (y + width) / page.height
             else
                 region.u2 = (x + width) / page.width
-                region.v2 = (x + height) / page.height
+                region.v2 = (y + height) / page.height
             end
             region.x = x
             region.y = y
@@ -148,10 +148,11 @@ function TextureAtlas:dump()
     for i = 1, #self.regions do
         local region = self.regions[i]
         print("  region:" .. i, region.name)
-        print(_F("   degree:%d xy:%d,%d size:%d,%d offxy:%d, %d origin:%d,%d", 
+        print(_F("   degree:%d xy:%d,%d size:%d,%d offxy:%d, %d origin:%d,%d uv:%.2f,%.2f uv2:%.2f,%.2f", 
             region.degrees, region.x, region.y,
             region.width, region.height, 
-            region.offsetX, region.offsetY, region.originalWidth, region.originalHeight))
+            region.offsetX, region.offsetY, region.originalWidth, region.originalHeight,
+            region.u, region.v, region.u2, region.v2))
     end
 end
 

@@ -261,7 +261,7 @@ function SB:readSkeletonData(skelFile)
     if defaultSkin ~= nil then
         sd.defaultSkin = defaultSkin
         table.insert(sd.skins, defaultSkin)
-        defaultSkin:dump()
+        -- defaultSkin:dump()
     end
 
     do

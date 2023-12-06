@@ -6,7 +6,7 @@ if "%~1" == "" (
 )
 
 echo %1
-lua -v
+::lua -v
 echo -------------------------------------------------------------------
 set "TYPE=none"
 
@@ -16,10 +16,12 @@ echo %1 | find ".lua">nul && set "TYPE=lua"
 echo %1 | find ".wlua">nul && set "TYPE=wlua"
 echo %1 | find ".coffee">nul && set "TYPE=coffee"
 echo %1 | find ".ts">nul && set "TYPE=ts"
+echo %1 | find ".py">nul && set "TYPE=py"
 
 setlocal enabledelayedexpansion
 
 if "%TYPE%" == "lua" (
+    lua -v
     ::use lua5.3
     if exist "%~dp0..\..\bin\runlua.bat" (
         set "path=%~dp0..\..\bin;%path%"
@@ -91,6 +93,12 @@ if "%TYPE%" == "coffee" (
 	echo - - - - - - - - -js src end- - - - - - - - - -
 
 	call coffee %~nx1
+	goto End
+)
+
+if "%TYPE%" == "py" (
+    python -V
+	python %~nx1
 	goto End
 )
 

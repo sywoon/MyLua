@@ -1,4 +1,5 @@
 
+1
 多个bat同时执行，并能获取执行的结果
 用于压缩执行时间
 
@@ -11,5 +12,17 @@
 
 不过，更常见的方法是使用 LuaJIT 的 FFI 库来调用底层操作系统 API 或者通过 os.spawn 类似的方法。这里有一个简单的例子使用 LuaSocket 和协程实现并行执行多个批处理文件：
 
-luarocks install luasocket
+luarocks install luasocket  用于主循环的sleep
+
+
+
+2 start_all.bat
+通过start多进程+文件来交换数据
+
+
+
+
+
+
+
 

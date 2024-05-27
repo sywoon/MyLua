@@ -1,1 +1,1 @@
-echo run batch1
+@echo run batch1 ≤‚ ‘1

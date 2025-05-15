@@ -9,7 +9,16 @@ if exist "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A" (
 )
 
 set "WINKITS=C:\Program Files (x86)\Windows Kits\10"
-set "KITSVERSION=10.0.19041.0"
+set "KITSVERSION=10.0.22621.0"
+
+if exist "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.41.34120\bin\Hostx64\x86\cl.exe" (
+    call :vs2022
+)
+
+if exist "D:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.41.34120\bin\Hostx64\x86\cl.exe" (
+    call :vs2022D
+)
+
 
 if exist "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x86\cl.exe" (
     call :vs2019
@@ -107,4 +116,30 @@ set "lib=%VSVC%\LIB\x86;%VSVC%\ATLMFC\LIB\x86;%WINSDK%\LIB;%WINKITS%\Lib\%KITSVE
 set "path=%VSVC%\BIN\Hostx64\x86;%VSCOMM%\IDE;%VSCOMM%\TOOLS;%WINSDK%\BIN;%WINKITS%\Redist\ucrt\DLLs\x86;%path%"
 
 goto :eof
+
+
+:vs2022
+echo --vs2022--
+set "VSCOMM=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7"
+set "VSVC=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.41.34120"
+
+set "include=%VSVC%\INCLUDE;%VSVC%\ATLMFC\INCLUDE;%WINSDK%\INCLUDE;%WINKITS%\Include\%KITSVERSION%\ucrt;%WINKITS%\Include\%KITSVERSION%\um;%WINKITS%\Include\%KITSVERSION%\shared;%include%;"
+set "lib=%VSVC%\LIB\x86;%VSVC%\ATLMFC\LIB\x86;%WINSDK%\LIB;%WINKITS%\Lib\%KITSVERSION%\ucrt\x86;%WINKITS%\Lib\%KITSVERSION%\um\x86;%lib%"
+set "path=%VSVC%\BIN\Hostx64\x86;%VSCOMM%\IDE;%VSCOMM%\TOOLS;%WINSDK%\BIN;%WINKITS%\Redist\ucrt\DLLs\x86;%path%"
+
+goto :eof
+  
+  
+:vs2022D
+echo --vs2022--
+set "VSCOMM=D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7"
+set "VSVC=D:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.41.34120"
+
+set "include=%VSVC%\INCLUDE;%VSVC%\ATLMFC\INCLUDE;%WINSDK%\INCLUDE;%WINKITS%\Include\%KITSVERSION%\ucrt;%WINKITS%\Include\%KITSVERSION%\um;%WINKITS%\Include\%KITSVERSION%\shared;%include%;"
+set "lib=%VSVC%\LIB\x86;%VSVC%\ATLMFC\LIB\x86;%WINSDK%\LIB;%WINKITS%\Lib\%KITSVERSION%\ucrt\x86;%WINKITS%\Lib\%KITSVERSION%\um\x86;%lib%"
+set "path=%VSVC%\BIN\Hostx64\x86;%VSCOMM%\IDE;%VSCOMM%\TOOLS;%WINSDK%\BIN;%WINKITS%\Redist\ucrt\DLLs\x86;%path%"
+
+goto :eof
+
+
 

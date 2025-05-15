@@ -1,4 +1,5 @@
 @echo off
+cls
 call clenv.bat
 
 set "lua_include=%~dp0/lib/lua5.3/include/"

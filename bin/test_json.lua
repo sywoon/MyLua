@@ -20,6 +20,10 @@ do
     print(data["master"]["excel"])
     print(math.type(data["master"]["excel"]))
     print("isnull", data["nulltest"] == json.null)
+    
+    -- / => \/ 多了不应该的字符
+    -- "path3":"<html>title<\/html>","path":"src\/bin\/test\/"
+    print("cjson.encode", json.encode(data))
 end
 
 do  --null内容丢失
@@ -27,6 +31,7 @@ do  --null内容丢失
     json.setMode("dkjson")
     local data = json.decode(data)
     table.print(data)
+    print("dkjson.encode", json.encode(data))
 end
 
 do

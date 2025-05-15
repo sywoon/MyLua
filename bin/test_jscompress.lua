@@ -15,7 +15,7 @@ do
 end
 
 do
-    local to = "test_jscompress_obfuscator1.js"
+    local to = "test_jscompress_obfuscator1.js.ts"
     print("obfuscator1", from, to)
     jscompress:encode(from, to, nil, 1)
     

@@ -8,6 +8,7 @@ local cjson = require "cjson"
 --      "<html>title</html>" => "<html>title<\/html>"
 --      "path":"src/bin/test/" => "path":"src\/bin\/test\/"
 
+-- https://github.com/openresty/lua-cjson
 -- 原因：cjson 库的一个默认行为 encode时 会把</（比如 </html>) 转义为 <\/，从而变成 "<\/html>"
 --      出于安全性考虑 防止在某些 Web 环境中嵌入 JSON 到 HTML 页面时，被浏览器当成标签解析
 -- 解决：调用前设置 cjson.encode_escape_forward_slash(false) 关闭对 / 的转义（从 \/ 变回 /）
@@ -19,11 +20,16 @@ function json.setMode(mode)
     if mode == "cjson" then
         _encode = cjson.encode
         _decode = cjson.decode
+        cjson.encode_escape_forward_slash(false)  --默认关闭转换 / => \/
+        
         json.null = cjson.null
         --稀疏数组的相关设置 (accepted_ratio, convert, safe) 容忍的 转换/报错 忽略不连续部分
         json.encode_sparse_array = cjson.encode_sparse_array
-        cjson.encode_escape_forward_slash(false)  --默认关闭转换
         json.encode_escape_forward_slash = cjson.encode_escape_forward_slash
+        -- (true|false|"on"|"off") 空table转换为map还是数组
+        json.encode_empty_table_as_object = cjson.encode_empty_table_as_object
+        -- table中加入空数组 
+        json.empty_array_mt = cjson.empty_array_mt
         
     elseif mode == "dkjson" then
         local dkjson = require "json_internal.dkjson"

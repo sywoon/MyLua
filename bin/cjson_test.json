@@ -1,1 +1,7 @@
-{"mini_game_release":{"uiproj":"916a6487","excel":41295.0,"protol":"69a66ba6","client":"147baf19"},"master":{"uiproj":"50d179dd","excel":41286.1,"protol":"fa278298","client":"1d4b2b70"},"release":{"uiproj":"7a11b27f","excel":41301,"protol":"69a66ba6","client":"d73199ff"},"mini_game":{"uiproj":"7356a875","excel":41270,"protol":"fa278298","client":"affcd53e"}}
+{
+"mini_game_release":{"uiproj":"916a6487","excel":41295.0,"protol":"69a66ba6","client":"147baf19"},"master":{"uiproj":"50d179dd","excel":41286.1,"protol":"fa278298","client":"1d4b2b70"},
+"release":{"uiproj":"7a11b27f","excel":41301,"protol":"69a66ba6","client":"d73199ff"},
+"mini_game":{"uiproj":"7356a875","excel":41270,"protol":"fa278298","client":"affcd53e","path":"src/bin/test/", "path2":"src\\bin\\test2\\", "path3":"<html>title</html>"},
+"strings":[11, 22, null, 33],
+"nulltest":null
+}

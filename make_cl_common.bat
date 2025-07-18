@@ -15,6 +15,7 @@ call :MAKE_ZLIB
 call :MAKE_ZLIB_STREAM
 call :MAKE_MSG_PACK
 call :MAKE_CHARSET
+::call :MAKE_LUAZIP  ::compile failed
 
 
 pause
@@ -160,5 +161,12 @@ copy /y output\\cmsgpack.dll bin
 goto :eof
 
 
+:MAKE_LUAZIP
+cd luazip
+call make_cl.bat
+cd ..
+
+copy /y output\\luazip.dll bin
+goto :eof
 
 

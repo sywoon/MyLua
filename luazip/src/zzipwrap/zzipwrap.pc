@@ -1,0 +1,10 @@
+prefix=/usr/local
+libdir=/usr/local/lib64
+includedir=/usr/local/include
+ 
+Name: zzipwrap
+Version: 0.13.68
+Description: Callback Wrappers for ZZipLib
+Requires: zziplib
+Libs: -L${libdir} -lzzipwrap
+Cflags: -I${includedir}

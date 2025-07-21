@@ -6,6 +6,7 @@
 * 以官方版本为基础，加入额外的扩展库。当前版本基于[lua-5.3.5](https://www.lua.org/versions.html#5.3)
 * 只支持windows
 * [库来源](http://lua-users.org/wiki/LibrariesAndBindings)
+* [zip/unzip download](https://sourceforge.net/projects/infozip/files/) [zip3.0](https://infozip.sourceforge.net/Zip.html#Release)
 
 # lua扩展库
 1. sllib_base [git](https://github.com/sywoon/sllib_lua)
@@ -26,9 +27,9 @@
    因为性能问题 没有采用纯lua库[luajson1.2.2](http://luaforge.net/projects/luajson/) 
    修复lua5.3解决int decode后成float问题 
    [cloudwu-lua-cjson](https://github.com/cloudwu/lua-cjson)
-10.字符串类型转换库[charset] ansi utf8 unicode互转 一般用于控制台显示中文
-11.[crc32] 支持计算字符串或文件的crc32值 可参考同步工具tools/file_sync
-12.[console] 修改控制台的颜色  用于错误的log用红色显示
+   10.字符串类型转换库[charset] ansi utf8 unicode互转 一般用于控制台显示中文
+   11.[crc32] 支持计算字符串或文件的crc32值 可参考同步工具tools/file_sync
+   12.[console] 修改控制台的颜色  用于错误的log用红色显示
 13. 图片信息[imlua](https://sourceforge.net/projects/imtoolkit/files/)
     [imtoolkit](http://imtoolkit.sourceforge.net/)
 14. [luacom](https://github.com/davidm/luacom)  没加成
@@ -46,7 +47,6 @@
 # tools 基于该lua环境的工具
 file_convert 文件格式互转: ansi和utf8
 file_sync 文件同步工具：模拟beyondcompare类似功能  基于crc32比对
-
 
 
 

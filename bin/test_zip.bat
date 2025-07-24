@@ -1,4 +1,13 @@
 
+:: -q	quiet，静音模式，抑制文件添加时的输出
+:: -qq	更静音，只输出错误信息，完全抑制成功日志
+:: -v	verbose，详细模式（默认会显示添加的文件）
+::zip [选项] archive.zip files... -x 排除模式1 排除模式2 ...
+::zip -r my.zip ./project -x "*.log" "temp/*" "build/*"
+:: 注意：排除要放末尾
+:: local cmd2 = _F('zip -r -9 -q %s %s -x *.meta *.ab *.zip', zipName, ".")
+
+
 
 ::压缩多个文件到.zip
 zip test_zip1.zip zlib.lua zlib_stream.lua

@@ -2,3 +2,5 @@ output/
 
 bin/*.log
 
+bin/__init2.lua
+

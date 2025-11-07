@@ -36,5 +36,6 @@ function g_initSllib(pathes)
     end
    
     require "sllib_base"
+    rawset(_G, "JSCOMPRESS_STAMP", 1821196799)  --2027.9.17 给自己用  默认2026.6.17 所以项目里不要这行代码
 end
 

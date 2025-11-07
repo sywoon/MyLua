@@ -8,8 +8,13 @@
 :: local cmd2 = _F('zip -r -9 -q %s %s -x *.meta *.ab *.zip', zipName, ".")
 
 
+::指定文件列表
+::  my_folder/a.txt
+::  my_folder/d.png
+zip test_zip0.zip -@ < filelist.txt
 
-::压缩多个文件到.zip
+
+::压缩多个文件到.zip 指定文件
 zip test_zip1.zip zlib.lua zlib_stream.lua
 
 ::递归压缩整个文件夹

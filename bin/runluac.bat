@@ -3,8 +3,12 @@
 
 
 set "input=%~1"
-set "output=%~2"
-set "show_log=%~3"
+if "%~2" == "" (
+    set "output=%~1"
+) else (
+    set "output=%~2"
+)
+
 
 if "%show_log%" == "1" (
     echo input:%input%
